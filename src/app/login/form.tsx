@@ -6,14 +6,14 @@ import { z } from "zod"
 import { signIn } from "next-auth/react"
 
 import { Button } from "@/components/ui/button"
+
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
-    FormMessage,
+    FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useRouter } from "next/navigation"
@@ -22,12 +22,10 @@ import {
     Card,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
 
-import { Label } from "@/components/ui/label"
 import {
     Tabs,
     TabsContent,
@@ -46,16 +44,21 @@ const formSchema = z.object({
 })
 
 const signUpFormSchema = z.object({
-    Email: z.string().min(2, {
+    email: z.string().min(2, {
         message: "Email must be at least 2 characters.",
     }),
     password: z.string().min(8, {
         message: "Password must be at least 8 characters.",
     }),
-    password2: z.string().min(8, {
+    confirmPassword: z.string().min(8, {
         message: "Password must be at least 8 characters.",
     })
 })
+    .refine((data) => data.password === data.confirmPassword, {
+        message: "Passwords don't match",
+        path: ["confirmPassword"],
+    });
+
 
 export default function LoginForm() {
     const router = useRouter()
@@ -70,15 +73,29 @@ export default function LoginForm() {
     const signUpForm = useForm<z.infer<typeof signUpFormSchema>>({
         resolver: zodResolver(signUpFormSchema),
         defaultValues: {
-            Email: "",
+            email: "",
             password: "",
-            password2: ""
+            confirmPassword: ""
         },
     })
 
 
-    function onSignUpSubmit(values: z.infer<typeof signUpFormSchema>) {
+    async function onSignUpSubmit(values: z.infer<typeof signUpFormSchema>) {
         console.log(values)
+        if (values.password !== values.confirmPassword) {
+            console.log("Passwords do not match")
+
+        }
+        const response = await fetch("/api/auth/register", {
+            method: "POST",
+            body: JSON.stringify(values)
+        })
+        
+        if(response.status === 409) {
+            signUpForm.setError("email", {
+                message: "Email already exists."
+            })
+        }
     }
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -89,17 +106,19 @@ export default function LoginForm() {
             redirect: false,
         })
 
-        console.log({ response })
-
         if (response?.ok) {
             router.push("/")
             router.refresh()
+        }
+        else{
+            form.setError("password", {
+                message: "Invalid email or password"
+            })
         }
     }
 
     return (
         <main className="flex justify-center items-center h-screen">
-
             <Tabs defaultValue="account" className="w-[400px]">
                 <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="account">Sign In</TabsTrigger>
@@ -125,6 +144,7 @@ export default function LoginForm() {
                                                 <FormControl>
                                                     <Input placeholder="john doe" {...field} />
                                                 </FormControl>
+                                                <FormMessage />
                                             </FormItem>
                                         )}
                                     />
@@ -135,22 +155,23 @@ export default function LoginForm() {
                                             <FormItem>
                                                 <FormLabel>Password</FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder="password" {...field} />
+                                                    <Input placeholder="password" type="password" {...field} />
                                                 </FormControl>
+                                                <FormMessage />
                                             </FormItem>
                                         )}
                                     />
                                     <Button type="submit">Submit</Button>
                                 </form>
                             </Form>
-
                         </CardContent>
                     </Card>
                 </TabsContent>
+
                 <TabsContent value="password">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Welcome!</CardTitle>
+                            <CardTitle>Register</CardTitle>
                             <CardDescription>
                                 Enter the details below to create an account.
                             </CardDescription>
@@ -160,13 +181,14 @@ export default function LoginForm() {
                                 <form onSubmit={signUpForm.handleSubmit(onSignUpSubmit)} className="space-y-4">
                                     <FormField
                                         control={signUpForm.control}
-                                        name="Email"
+                                        name="email"
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>Email</FormLabel>
                                                 <FormControl>
                                                     <Input placeholder="john doe" {...field} />
                                                 </FormControl>
+                                                <FormMessage />
                                             </FormItem>
                                         )}
                                     />
@@ -177,20 +199,22 @@ export default function LoginForm() {
                                             <FormItem>
                                                 <FormLabel>New Password</FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder="password" {...field} />
+                                                    <Input placeholder="password" type="password" {...field} />
                                                 </FormControl>
+                                                <FormMessage />
                                             </FormItem>
                                         )}
                                     />
                                     <FormField
                                         control={signUpForm.control}
-                                        name="password2"
+                                        name="confirmPassword"
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>Re-enter Password</FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder="password" {...field} />
+                                                    <Input placeholder="Confirm Password" type="password" {...field} />
                                                 </FormControl>
+                                                <FormMessage />
                                             </FormItem>
                                         )}
                                     />

@@ -1,7 +1,8 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { set, useForm } from "react-hook-form"
+import { useState } from "react"
 import { z } from "zod"
 import { signIn } from "next-auth/react"
 
@@ -52,15 +53,26 @@ const signUpFormSchema = z.object({
     }),
     confirmPassword: z.string().min(8, {
         message: "Password must be at least 8 characters.",
-    })
+    }),
+    // otp: z.string().min(6, {
+    //     message: "OTP must be at least 6 characters.",
+    // })
 })
     .refine((data) => data.password === data.confirmPassword, {
         message: "Passwords don't match",
         path: ["confirmPassword"],
     });
 
+const otpSchema = z.object({
+    otp: z.string().min(6, {
+        message: "OTP must be at least 6 characters.",
+    })
+})
 
 export default function LoginForm() {
+    const [otpActive, setOtpActive] = useState(false)
+    const [currOtp, setCurrOtp] = useState("")
+
     const router = useRouter()
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -75,27 +87,21 @@ export default function LoginForm() {
         defaultValues: {
             email: "",
             password: "",
-            confirmPassword: ""
+            confirmPassword: "",
         },
     })
 
+    const otpForm = useForm<z.infer<typeof otpSchema>>({
+        resolver: zodResolver(otpSchema),
+        defaultValues: {
+            otp: ""
+        }
+    })
 
     async function onSignUpSubmit(values: z.infer<typeof signUpFormSchema>) {
         console.log(values)
-        if (values.password !== values.confirmPassword) {
-            console.log("Passwords do not match")
-
-        }
-        const response = await fetch("/api/auth/register", {
-            method: "POST",
-            body: JSON.stringify(values)
-        })
-        
-        if(response.status === 409) {
-            signUpForm.setError("email", {
-                message: "Email already exists."
-            })
-        }
+        await sendVerificationEmail(values.email)
+        setOtpActive(true)
     }
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -110,12 +116,72 @@ export default function LoginForm() {
             router.push("/")
             router.refresh()
         }
-        else{
+        else {
             form.setError("password", {
                 message: "Invalid email or password"
             })
         }
     }
+
+    async function handleRegistration(otpValues: z.infer<typeof otpSchema>) {
+        if (otpValues.otp !== currOtp) {
+            otpForm.setError("otp", {
+                message: "Invalid OTP"
+            })
+            return
+        }
+        const values = signUpForm.getValues()
+        if (values.password !== values.confirmPassword) {
+            console.log("Passwords do not match")
+        }
+        console.log(values)
+        const response = await fetch("/api/auth/register", {
+            method: "POST",
+            body: JSON.stringify(values)
+        })
+
+        if (response.status === 409) {
+            signUpForm.setError("email", {
+                message: "Email already exists."
+            })
+            return
+        }
+        if (response.ok) {
+            window.location.reload()
+        }
+    }
+
+
+
+    async function sendVerificationEmail(email: string) {
+        const otp = Math.floor(100000 + Math.random() * 900000)
+        setCurrOtp(otp.toString())
+
+        console.log('otp', otp)
+        const res = await fetch("/api/auth/sendgrid", {
+            body: JSON.stringify({
+                email: email,
+                sender: "2041001037.faridahmed@gmail.com",
+                recipient: email,
+                subject: 'Email Verification',
+                otp: otp,
+            }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+        });
+
+
+        console.log(res)
+        const { error } = await res.json();
+        if (error) {
+            console.log(error);
+            return;
+        }
+    }
+
+
 
     return (
         <main className="flex justify-center items-center h-screen">
@@ -205,6 +271,7 @@ export default function LoginForm() {
                                             </FormItem>
                                         )}
                                     />
+
                                     <FormField
                                         control={signUpForm.control}
                                         name="confirmPassword"
@@ -218,10 +285,32 @@ export default function LoginForm() {
                                             </FormItem>
                                         )}
                                     />
-                                    <Button type="submit">Submit</Button>
+                                    {!otpActive && (<Button type="submit">Send OTP</Button>)}
+
                                 </form>
                             </Form>
-
+                            {otpActive && (<>
+                                <Form {...otpForm}>
+                                    <form onSubmit={otpForm.handleSubmit(handleRegistration)} className="space-y-4 mt-2">
+                                        <FormField
+                                            control={otpForm.control}
+                                            name="otp"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>Enter OTP</FormLabel>
+                                                    <FormControl>
+                                                        <Input placeholder="OTP" type="text" {...field} />
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                        <Button
+                                            type="submit"
+                                        >Register</Button>
+                                    </form>
+                                </Form>
+                            </>)}
                         </CardContent>
                     </Card>
                 </TabsContent>

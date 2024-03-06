@@ -25,9 +25,16 @@ export async function POST(request: Request) {
         INSERT INTO users (email, password)
         VALUES (${email}, ${hashedPassword});
         `;
+
+        console.log(response)
   } catch (error) {
     console.log(error);
   }
 
-  return NextResponse.json({ message: "success" });
+  return new Response(JSON.stringify({ error: "" }), {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 }

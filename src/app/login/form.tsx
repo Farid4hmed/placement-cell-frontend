@@ -56,9 +56,6 @@ const signUpFormSchema = z.object({
     confirmPassword: z.string().min(8, {
         message: "Password must be at least 8 characters.",
     }),
-    // otp: z.string().min(6, {
-    //     message: "OTP must be at least 6 characters.",
-    // })
 })
     .refine((data) => data.password === data.confirmPassword, {
         message: "Passwords don't match",

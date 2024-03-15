@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import Logout from "@/components/logout";
+import { Toaster } from "@/components/ui/toaster"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -40,7 +41,9 @@ export default async function RootLayout({
             }
           </nav>
           {children}
+
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );

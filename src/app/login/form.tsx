@@ -6,6 +6,8 @@ import { useState } from "react"
 import { z } from "zod"
 import { signIn } from "next-auth/react"
 
+import { ToastAction } from "@/components/ui/toast"
+import { useToast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button"
 
 import {
@@ -72,6 +74,7 @@ const otpSchema = z.object({
 export default function LoginForm() {
     const [otpActive, setOtpActive] = useState(false)
     const [currOtp, setCurrOtp] = useState("")
+    const { toast } = useToast()
 
     const router = useRouter()
     const form = useForm<z.infer<typeof formSchema>>({
@@ -100,6 +103,10 @@ export default function LoginForm() {
 
     async function onSignUpSubmit(values: z.infer<typeof signUpFormSchema>) {
         await sendVerificationEmail(values.email)
+        toast({
+            title: "An OTP has been sent to your email.",
+            description: "Friday, February 10, 2023 at 5:57 PM"
+        })
         setOtpActive(true)
     }
 
@@ -144,7 +151,17 @@ export default function LoginForm() {
             return
         }
         if (response.ok) {
-            window.location.reload()
+            const signInResponse = await signIn("credentials", {
+                email: values.email,
+                password: values.password,
+                redirect: false,
+            })
+
+            if (signInResponse?.ok) {
+                router.push("/")
+                router.refresh()
+            }
+
         }
     }
 

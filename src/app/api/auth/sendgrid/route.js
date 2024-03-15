@@ -1,5 +1,4 @@
 import sendgrid from "@sendgrid/mail";
-import { NextResponse } from "next/server";
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY)
 
 
@@ -22,7 +21,7 @@ export async function POST(request) {
             headers: {
                 'Content-Type': 'application/json',
             },
-        });
+        })
     } catch (error) {
         console.log(error);
         return new Response(JSON.stringify({ message: "error", error: error.toString() }), {

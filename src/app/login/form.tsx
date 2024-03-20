@@ -6,6 +6,8 @@ import { useState } from "react"
 import { z } from "zod"
 import { signIn } from "next-auth/react"
 
+import { ToastAction } from "@/components/ui/toast"
+import { useToast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button"
 
 import {
@@ -54,9 +56,6 @@ const signUpFormSchema = z.object({
     confirmPassword: z.string().min(8, {
         message: "Password must be at least 8 characters.",
     }),
-    // otp: z.string().min(6, {
-    //     message: "OTP must be at least 6 characters.",
-    // })
 })
     .refine((data) => data.password === data.confirmPassword, {
         message: "Passwords don't match",
@@ -72,6 +71,7 @@ const otpSchema = z.object({
 export default function LoginForm() {
     const [otpActive, setOtpActive] = useState(false)
     const [currOtp, setCurrOtp] = useState("")
+    const { toast } = useToast()
 
     const router = useRouter()
     const form = useForm<z.infer<typeof formSchema>>({
@@ -99,13 +99,15 @@ export default function LoginForm() {
     })
 
     async function onSignUpSubmit(values: z.infer<typeof signUpFormSchema>) {
-        console.log(values)
         await sendVerificationEmail(values.email)
+        toast({
+            title: "An OTP has been sent to your email.",
+            description: "Friday, February 10, 2023 at 5:57 PM"
+        })
         setOtpActive(true)
     }
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
         const response = await signIn("credentials", {
             email: values.email,
             password: values.password,
@@ -134,7 +136,6 @@ export default function LoginForm() {
         if (values.password !== values.confirmPassword) {
             console.log("Passwords do not match")
         }
-        console.log(values)
         const response = await fetch("/api/auth/register", {
             method: "POST",
             body: JSON.stringify(values)
@@ -147,7 +148,17 @@ export default function LoginForm() {
             return
         }
         if (response.ok) {
-            window.location.reload()
+            const signInResponse = await signIn("credentials", {
+                email: values.email,
+                password: values.password,
+                redirect: false,
+            })
+
+            if (signInResponse?.ok) {
+                router.push("/")
+                router.refresh()
+            }
+
         }
     }
 
@@ -157,7 +168,6 @@ export default function LoginForm() {
         const otp = Math.floor(100000 + Math.random() * 900000)
         setCurrOtp(otp.toString())
 
-        console.log('otp', otp)
         const res = await fetch("/api/auth/sendgrid", {
             body: JSON.stringify({
                 email: email,
@@ -173,7 +183,6 @@ export default function LoginForm() {
         });
 
 
-        console.log(res)
         const { error } = await res.json();
         if (error) {
             console.log(error);

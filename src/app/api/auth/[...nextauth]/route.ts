@@ -19,7 +19,7 @@ const handler = NextAuth({
       },
       async authorize(credentials, req) {
         const response = await sql`
-          SELECT * from users where email = ${credentials?.email}
+          SELECT * from students where email = ${credentials?.email}
           `;
         const user = response.rows[0];
 

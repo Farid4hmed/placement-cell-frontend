@@ -30,13 +30,13 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
+          {/* <Navbar /> */}
           <nav>
             {!!session &&
-            (  <Logout /> )
+              (<Logout />)
             }
             {!session &&
-            (  <Link href="/login">
+              (<Link href="/login">
                 Login
               </Link>
               )

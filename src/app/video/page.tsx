@@ -80,7 +80,7 @@ export default async function Video() {
                 </Dialog.Portal>
             </Dialog.Root>
         </div>
-        );
+        )
     }
     return (
         <main className="flex items-center justify-center">

@@ -23,10 +23,11 @@ const handler = NextAuth({
           `;
         const user = response.rows[0];
 
-        if(!user) {
+        if (!user) {
           return null;
         }
         console.log(user);
+
 
         const passwordCorrect = await compare(
           credentials?.password || "",

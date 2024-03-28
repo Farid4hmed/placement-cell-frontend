@@ -11,7 +11,7 @@ export default async function Logout() {
 
     return (
         <span onClick={handleLogout}>
-            Logout
+            Sign Out
         </span>
     )
 }

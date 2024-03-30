@@ -6,8 +6,9 @@ import { Button } from "@/components/ui/button"
 import { initFlowbite } from 'flowbite'
 import Logout from "./logout";
 
-const Navbar = () => {
+const Navbar = (props: any) => {
 
+    console.log(props.session)
     React.useEffect(() => {
         initFlowbite()
     }, [])
@@ -44,7 +45,7 @@ const Navbar = () => {
                                             Neil Sims
                                         </p> */}
                                         <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                                            {/* {email} */}
+                                            {props.session.user.email}
                                         </p>
                                     </div>
                                     <ul className="py-1" role="none">

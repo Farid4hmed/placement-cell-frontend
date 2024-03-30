@@ -21,6 +21,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await getServerSession();
+
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -33,7 +34,7 @@ export default async function RootLayout({
           
           <nav>
             {!!session &&
-              (<Navbar />)
+              (<Navbar session={session} />)
             }
             {!session &&
               (<Link href="/login">

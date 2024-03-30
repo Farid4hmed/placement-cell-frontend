@@ -9,7 +9,6 @@ import { signIn } from "next-auth/react"
 import { ToastAction } from "@/components/ui/toast"
 import { useToast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button"
-import { useUserDetailsStore } from "../store/store"
 import {
     Form,
     FormControl,
@@ -115,7 +114,6 @@ export default function LoginForm() {
         })
 
         if (response?.ok) {
-            useUserDetailsStore.getState().setDetails(values.email);
             router.push("/")
             router.refresh()
         }

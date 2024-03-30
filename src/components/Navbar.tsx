@@ -4,13 +4,9 @@ import Link from "next/link";
 import { BarChart3 } from 'lucide-react';
 import { Button } from "@/components/ui/button"
 import { initFlowbite } from 'flowbite'
-import { useUserDetailsStore } from "@/app/store/store";
 import Logout from "./logout";
 
 const Navbar = () => {
-    // const { email } = useUserDetailsStore()
-
-    const email = useUserDetailsStore.getState().email
 
     React.useEffect(() => {
         initFlowbite()
@@ -48,7 +44,7 @@ const Navbar = () => {
                                             Neil Sims
                                         </p> */}
                                         <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                                            {email}
+                                            {/* {email} */}
                                         </p>
                                     </div>
                                     <ul className="py-1" role="none">

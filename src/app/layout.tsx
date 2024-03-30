@@ -6,7 +6,7 @@ import { getServerSession } from "next-auth";
 import Link from "next/link";
 import Logout from "@/components/logout";
 import { Toaster } from "@/components/ui/toaster"
-import Navbar from "@/components/Navbar";
+import Navigation from "@/components/Navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,7 +34,7 @@ export default async function RootLayout({
           
           <nav>
             {!!session &&
-              (<Navbar session={session} />)
+              (<Navigation session={session} />)
             }
             {!session &&
               (<Link href="/login">

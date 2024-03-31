@@ -1,17 +1,19 @@
 'use client';
 import React from "react"
-import Link from "next/link";
 import { Building2 } from 'lucide-react';
-import { Button } from "@/components/ui/button"
 import { initFlowbite } from 'flowbite'
 import Logout from "./logout";
+import { useRouter } from 'next/navigation'
 
-const Navigation = (props: any) => {
+const Navigation = ({ children, ...props }: any) => {
+    const router = useRouter()
 
-    console.log(props.session)
+    const { session } = props
     React.useEffect(() => {
         initFlowbite()
     }, [])
+
+    if(!!session)
     return (
         <>
 
@@ -45,7 +47,7 @@ const Navigation = (props: any) => {
                                             Neil Sims
                                         </p> */}
                                         <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                                            {props.session.user.email}
+                                            {session.user.email}
                                         </p>
                                     </div>
                                     <ul className="py-1" role="none">
@@ -85,12 +87,15 @@ const Navigation = (props: any) => {
 
             <div className="p-4 sm:ml-64">
                 <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
-                   
+                    {children}
                 </div>
             </div>
 
         </>
     );
+    else {
+        router.push('/login')
+    }
 }
 
 export default Navigation;

@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
-import { getServerSession } from "next-auth";
 import { Toaster } from "@/components/ui/toaster"
-import Navigation from "@/components/Navigation";
 import SessionWrapper from "@/components/sessionWrapper";
 
 
@@ -20,8 +18,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession();
-
   return (
     <SessionWrapper>
       <html lang="en">
@@ -32,14 +28,7 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-
-            <nav>
-              {!!session &&
-                (<Navigation session={session} />)
-              }
-            </nav>
             {children}
-
           </ThemeProvider>
           <Toaster />
         </body>

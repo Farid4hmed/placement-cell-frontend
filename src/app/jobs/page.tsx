@@ -1,19 +1,16 @@
-"use client"
-import { useSession, signIn, signOut } from "next-auth/react"
-import { useRouter } from "next/navigation"
+import Navigation from "@/components/Navigation";
+import { getServerSession } from "next-auth";
 
-export default function Jobs() {
-  const { data: session, status } = useSession()
-  const router = useRouter()
+export default async function Jobs() {
+  const session = await getServerSession()
 
-
-  if (status === "authenticated") {
     return (
-      <main className="">
+      <Navigation session={session}>
+        <main className="">
 
-      </main>
+        </main>
+      </Navigation>
     );
-  } else if (status !== "loading") {
-    router.push("/login")
-  }
+
+
 }

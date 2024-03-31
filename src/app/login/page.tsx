@@ -1,13 +1,24 @@
 "use client"
 
 import LoginForm from './form'
+import { useSession } from 'next-auth/react'
+import { useRouter } from "next/navigation"
 
 export default async function Login() {
-    return (
-        <main className="flex justify-center items-center h-screen">
+    const { data: session, status } = useSession()
+    const router = useRouter()
 
-            <LoginForm />
+    if (status === "unauthenticated") {
+        return (
+            <main className="flex justify-center items-center h-screen">
 
-        </main>
-    )
+                <LoginForm />
+
+            </main>
+        )
+    }
+    else if (status !== 'loading'){
+        router.push('/')
+    }
+
 }

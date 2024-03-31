@@ -48,6 +48,8 @@ const formSchema = z.object({
 const signUpFormSchema = z.object({
     email: z.string().min(2, {
         message: "Email must be at least 2 characters.",
+    }).regex(/^\d+\.\w+@gmail\.com$/, {
+        message: "Email must be in the format <number>.<string>@gmail.com.",
     }),
     password: z.string().min(8, {
         message: "Password must be at least 8 characters.",
@@ -140,12 +142,13 @@ export default function LoginForm() {
             body: JSON.stringify(values)
         })
 
-        if (response.status === 409) {
+        if (response.status === 409 || response.status === 400) {
             signUpForm.setError("email", {
                 message: "Email already exists."
             })
             return
         }
+
         if (response.ok) {
             const signInResponse = await signIn("credentials", {
                 email: values.email,

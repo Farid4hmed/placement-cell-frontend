@@ -2,7 +2,7 @@
 import { useSession, signIn, signOut } from "next-auth/react"
 import { useRouter } from "next/navigation"
 
-export default function Home() {
+export default function Jobs() {
   const { data: session, status } = useSession()
   const router = useRouter()
 

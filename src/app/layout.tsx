@@ -3,10 +3,10 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
 import { getServerSession } from "next-auth";
-import Link from "next/link";
-import Logout from "@/components/logout";
 import { Toaster } from "@/components/ui/toaster"
 import Navigation from "@/components/Navigation";
+import SessionWrapper from "@/components/sessionWrapper";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,31 +23,27 @@ export default async function RootLayout({
   const session = await getServerSession();
 
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        >
-          
-          <nav>
-            {!!session &&
-              (<Navigation session={session} />)
-            }
-            {!session &&
-              (<Link href="/login">
-                Login
-              </Link>
-              )
-            }
-          </nav>
-          {children}
+    <SessionWrapper>
+      <html lang="en">
+        <body className={inter.className}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
+          >
 
-        </ThemeProvider>
-        <Toaster />
-      </body>
-    </html>
+            <nav>
+              {!!session &&
+                (<Navigation session={session} />)
+              }
+            </nav>
+            {children}
+
+          </ThemeProvider>
+          <Toaster />
+        </body>
+      </html>
+    </SessionWrapper>
   );
 }

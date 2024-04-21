@@ -43,12 +43,11 @@ export const CardIssue = observer(({ item, onSeach }: Props) => {
     isRemoteJob,
   } = parseFrontMatter<IFrontMatter>(item.body)?.attributes || {}
 
-  console.log('item', item)
   return (
     <article
       key={item.id}
       title={item.title}
-      className="relative cursor-pointer pb-3 px-3 pt-[22px] rounded-xl bg-white border-2 border-[#D9D9D9] hover:border-black shadow-[2px_2px_0px_#D9D9D9] hover:shadow-[4px_4px_0px_#7cc470] ease-in-out duration-300"
+      className="relative cursor-pointer pb-3 px-3 py-10 rounded-xl bg-white border-2 border-[#D9D9D9] hover:border-black shadow-[2px_2px_0px_#D9D9D9] hover:shadow-[4px_4px_0px_#7cc470] ease-in-out duration-300"
     >
       <Link href={item.html_url} target="_blank">
         <img
@@ -56,7 +55,7 @@ export const CardIssue = observer(({ item, onSeach }: Props) => {
           alt="avatar"
           width={44}
           height={44}
-          className="w-11 h-11 object-contain rounded absolute -top-[23px] left-0 right-0 mx-auto border-2 border-black shadow-[2px_2px_0px_#7cc470]"
+          className="w-20 h-20 object-contain rounded absolute -top-[40px] left-0 right-0 mx-auto border-2 border-black shadow-[2px_2px_0px_#7cc470]"
         />
         <h1 className="mt-1 font-heading text-xl font-bold text-slate-700 hn-break-words truncate">
           {item.title}
@@ -87,19 +86,19 @@ export const CardIssue = observer(({ item, onSeach }: Props) => {
           )}
         </div>
         <div className="mt-2">
-          {shortDescription?.trim()?.length ? (
-            <div className="text-sm text-slate-500 line-clamp-5">
-              {shortDescription}
+          {/* {shortDescription?.trim()?.length ? ( */}
+            <div className="text-sm text-slate-500 line-clamp-5 min-h-[40rem]">
+              {item.body}
             </div>
-          ) : (
-            <Markdown
+          {/* // ) : ( */}
+            {/* <Markdown
               skipHtml
               allowedElements={["p"]}
               className="text-sm text-slate-500 line-clamp-4"
             >
               {item.body}
-            </Markdown>
-          )}
+            </Markdown> */}
+          {/* )} */}
         </div>
         <div className="flex flex-row mt-3 items-center justify-between">
           <div className="flex flex-row items-center">

@@ -14,7 +14,7 @@ export async function POST(request) {
             subject: `${subject}`,
             html: `${html}`,
         })
-        console.log(response)
+        console.log('sendgrid response', response)
   
         return new Response(JSON.stringify({ message: "success" }), {
             status: 200,

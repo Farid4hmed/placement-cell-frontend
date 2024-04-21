@@ -1,5 +1,5 @@
 "use client"
-import { useCallback, useRef } from "react"
+import React, { useCallback, useRef } from "react"
 import Image from "next/image"
 import InfiniteScroll from "react-infinite-scroller"
 import { observer } from "mobx-react-lite"
@@ -16,12 +16,15 @@ import {
     CardIssue,
     Technologies,
 } from "../components"
+import { AppContext } from "@/components/context"
 
 const Jobs = () => {
     const labelRef = useRef<LabelRef>(null)
     const searchRef = useRef<SearchRef>(null)
     const countryRef = useRef<CountryRef>(null)
     const headerRef = useRef<null | HTMLDivElement>(null)
+    const { isAdmin, toggleIsAdmin } = React.useContext(AppContext) 
+    console.log('isAdmin', isAdmin)
 
     const { isLoading, issues, fetchIssues, loadMoreIssues } = useIssuesStore()
 

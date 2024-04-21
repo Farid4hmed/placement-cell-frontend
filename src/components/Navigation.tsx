@@ -5,15 +5,17 @@ import { initFlowbite } from 'flowbite'
 import Logout from "./logout";
 import { useRouter } from 'next/navigation'
 import Link from "next/link";
+import { AppContext } from "./context";
 
 const Navigation = ({ children, ...props }: any) => {
     const router = useRouter()
-
     const { session } = props
     React.useEffect(() => {
         initFlowbite()
     }, [])
+    const { isAdmin, toggleIsAdmin } = React.useContext(AppContext) 
 
+    toggleIsAdmin(session?.user.email === '2041001037.faridahmed@gmail.com' ? true : false)
     if (!!session)
         return (
             <>
@@ -72,7 +74,7 @@ const Navigation = ({ children, ...props }: any) => {
                             </li>
                             <li>
                                 <Link href={`/resources`} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                <LibraryBig strokeWidth={1.25} />
+                                    <LibraryBig strokeWidth={1.25} />
                                     <span className="ms-3">Resources</span>
                                 </Link>
                             </li>

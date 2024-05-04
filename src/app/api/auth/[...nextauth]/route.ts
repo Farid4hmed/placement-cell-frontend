@@ -38,7 +38,9 @@ const handler = NextAuth({
 
         if (passwordCorrect) {
           console.log({ user: user });
-          return { id: user.id, email: user.email };
+          let isAdmin = false
+          if(user.email === '2041001037.faridahmed@gmail.com')isAdmin = true
+          return { id: user.id, email: user.email, isAdmin: isAdmin };
         }
 
         return null;

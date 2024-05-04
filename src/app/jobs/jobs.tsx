@@ -56,7 +56,7 @@ const Jobs = () => {
     const RenderList = () => {
         if (issues?.items?.length) {
             return (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-12 pt-5 pb-10">
+                <div className="grid grid-cols-1 sm:grid-cols-1 gap-x-6 gap-y-20 pt-5 pb-10">
                     {issues.items.map((item, index) => (
                         <CardIssue
                             key={`${item.node_id}${index}`}
@@ -107,11 +107,11 @@ const Jobs = () => {
                                 Find
                             </div>
                         </div>
-                        <div className="grid grid-cols-12 gap-6 z--10">
-                            <div className="col-span-12 lg:col-span-10">{RenderList()}</div>
-                            <div className="hidden lg:block col-span-2 pt-5">
+                        <div className="grid grid-cols-1 gap-6 z--10">
+                            <div className="col-span-1 lg:col-span-10">{RenderList()}</div>
+                            {/*<div className="hidden lg:block col-span-2 pt-5">
                                 <Technologies onSearch={handleSearchTech} />
-                            </div>
+                            </div>*/}
                         </div>
                     </div>
                 </main>

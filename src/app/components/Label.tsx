@@ -1,4 +1,4 @@
-"use client"
+
 import React, { memo, useState, forwardRef, useImperativeHandle } from "react"
 import { SHOW_ALL, SHOW_EASY_APPLY } from "../constants/labelFilters"
 

@@ -109,6 +109,7 @@ const Jobs = () => {
                         </div>
                         <div className="grid grid-cols-1 gap-6 z--10">
                             <div className="col-span-1 lg:col-span-10">{RenderList()}</div>
+
                             {/* <div className="hidden lg:block col-span-2 pt-5">
                                 <Technologies onSearch={handleSearchTech} />
                             </div> */}

@@ -1,5 +1,5 @@
 import { memo, useEffect, useState } from "react"
-import Modal from "react-modal"
+//import Modal from "react-modal"
 import { useIssuesStore } from "../models/IssuesStore"
 import { CardIssue } from "./CardIssue"
 

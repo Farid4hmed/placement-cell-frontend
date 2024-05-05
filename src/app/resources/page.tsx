@@ -1,5 +1,5 @@
 import Navigation from "@/components/Navigation";
-import Video from "@/components/video";
+import Resources from "@/components/resources";
 import { getServerSession } from "next-auth";
 
 export default async function Resources() {
@@ -8,7 +8,7 @@ export default async function Resources() {
     return (
       <Navigation session={session}>
         <main className="">
-        <Video />
+          <Resources />
         </main>
       </Navigation>
     );

@@ -57,10 +57,10 @@ const Jobs = () => {
     )
 
     const RenderList = () => {
-        if (issues?.items?.length) {
+        if (Array.isArray(issues?.items)) {
             return (
                 <div className="grid grid-cols-1 sm:grid-cols-1 gap-x-6 gap-y-20 pt-5 pb-10">
-                    {issues.items.map((item, index) => (
+                    {issues.items.map((item: any, index: any) => (
                         <CardIssue
                             key={`${item.node_id}${index}`}
                             item={item}
@@ -81,14 +81,14 @@ const Jobs = () => {
         )
     }
 
-    const isHasMore =
-        !isLoading && Boolean(issues && issues?.items?.length < issues?.total_count)
+    // const isHasMore =
+        // !isLoading && Boolean(issues && issues?.items.length && issues?.items.length < issues?.total_count)
 
     return (
         <InfiniteScroll
             pageStart={1}
             loadMore={handleLoadMore}
-            hasMore={isHasMore}
+            // hasMore={isHasMore}
             loader={
                 <div className="text-center mb-3" key={0}>
                     Loading...

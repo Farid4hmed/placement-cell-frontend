@@ -2,7 +2,7 @@ import Navigation from "@/components/Navigation";
 import Resources from "@/components/resources";
 import { getServerSession } from "next-auth";
 
-export default async function Resources() {
+export default async function Main() {
   const session = await getServerSession()
 
     return (

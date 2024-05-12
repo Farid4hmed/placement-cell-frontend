@@ -25,6 +25,7 @@
     "flowbite": "^2.3.0",
     "front-matter": "^4.0.2",
     "lucide-react": "^0.344.0",
+    "mobx": "^6.12.3",
     "mobx-react-lite": "^4.0.7",
     "mobx-state-tree": "^5.4.2",
     "next": "14.1.1",

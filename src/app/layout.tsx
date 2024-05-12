@@ -7,7 +7,7 @@ import SessionWrapper from "@/components/sessionWrapper";
 import { AppProvider } from "@/components/context";
 
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Create Next App",

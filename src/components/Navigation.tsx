@@ -1,6 +1,6 @@
 'use client';
 import React from "react"
-import { Building2, LibraryBig } from 'lucide-react';
+import { Building2, LibraryBig, Home } from 'lucide-react';
 import { initFlowbite } from 'flowbite'
 import Logout from "./logout";
 import { useRouter } from 'next/navigation'
@@ -13,7 +13,7 @@ const Navigation = ({ children, ...props }: any) => {
     React.useEffect(() => {
         initFlowbite()
     }, [])
-    const { isAdmin, toggleIsAdmin } = React.useContext(AppContext) 
+    const { isAdmin, toggleIsAdmin } = React.useContext(AppContext)
 
     toggleIsAdmin(session?.user.email === '2041001037.faridahmed@gmail.com' ? true : false)
     if (!!session)
@@ -67,6 +67,12 @@ const Navigation = ({ children, ...props }: any) => {
                     <div className="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
                         <ul className="space-y-2 font-medium">
                             <li>
+                                <Link href={`/`} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                    <Home strokeWidth={1.25} />
+                                    <span className="ms-3">Home</span>
+                                </Link>
+                            </li>
+                            <li>
                                 <Link href={`/jobs`} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                     <Building2 strokeWidth={1.25} />
                                     <span className="ms-3">Visiting Companies</span>
@@ -83,7 +89,7 @@ const Navigation = ({ children, ...props }: any) => {
                 </aside>
 
                 <div className="p-4">
-                    <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
+                    <div className="p-4 rounded-lg dark:border-gray-700 mt-14">
                         {children}
                     </div>
                 </div>

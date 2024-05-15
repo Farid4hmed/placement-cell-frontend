@@ -1,9 +1,10 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import 'quill/dist/quill.snow.css'
 import dynamic from 'next/dynamic';
+import './sidebar.css';
 
 const ReactQuill = dynamic(() => import('react-quill'), {
   ssr: false,
@@ -78,6 +79,29 @@ const Resources = () => {
     setSearchTerm(e.target.value);
   }
 
+  const [vidCollapsed, setVidCollapsed] = useState(false);
+  const [docCollapsed, setDocCollapsed] = useState(false); 
+
+  const toggleVidCollapse = () => {
+    setVidCollapsed(!vidCollapsed);
+  };
+  const toggleDocCollapse = () => {
+    setDocCollapsed(!docCollapsed);
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setVidCollapsed(window.innerWidth < 900);
+      setDocCollapsed(window.innerWidth < 900);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   // Function to handle tab click
   const handleTabClick = (tabNumber: any) => {
     setActiveTab(tabNumber);
@@ -95,12 +119,12 @@ const Resources = () => {
       <div className="border-b border-gray-200 dark:border-gray-700 ">
         <ul className="flex flex-wrap -mb-px text-sm font-medium text-center justify-center text-gray-500 dark:text-gray-400">
           <li className="me-2" >
-            <h3 className={`${clicked ? 'inline-flex items-center justify-center p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group' : 'inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group'}`} onClick={() => handleTabClick(1)}>
+            <h3 className={`${!clicked ? 'inline-flex items-center justify-center p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group' : 'inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group'}`} aria-current="page" onClick={() => handleTabClick(1)}>
               Videos
             </h3>
           </li>
           <li className="me-2">
-            <h3 className={` ${!clicked ? 'inline-flex items-center justify-center p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group' : 'inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group'}`} aria-current="page" onClick={() => handleTabClick(2)}>
+            <h3 className={` ${clicked ? 'inline-flex items-center justify-center p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group' : 'inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group'}`}  onClick={() => handleTabClick(2)}>
               Documentation
             </h3>
           </li>
@@ -114,7 +138,9 @@ const Resources = () => {
           searchTerm={searchTerm}
           changeSearchTerm={changeSearchTerm}
           filteredVideoTopics={filteredVideoTopics}
-
+          collapsed = {vidCollapsed}
+          setCollapsed = {setVidCollapsed}
+          toggleCollapsed = {toggleVidCollapse}
         />)}
       {activeTab === 2 &&
         (<Documentation
@@ -124,7 +150,9 @@ const Resources = () => {
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           filteredDocTopics={filteredDocTopics}
-
+          collapsed = {docCollapsed}
+          setCollapsed = {setDocCollapsed}
+          toggleCollapsed = {toggleDocCollapse}
         />)}
       <Dialog.Root>
         <Dialog.Trigger asChild>
@@ -142,7 +170,7 @@ const Resources = () => {
                 formats={formats}
                 placeholder="write your content ...."
                 onChange={handleProcedureContentChange}
-                style={{ height: "300px" }} />
+                style={{ height: "50vh" , width: "50vw" }} />
             </div>
           </div>
         </Dialog.Portal>
@@ -154,10 +182,10 @@ const Resources = () => {
 export default Resources;
 
 
-const Videos = ({ searchTerm, categories, changeSearchTerm, filteredVideoTopics, filterVideoCategory, setFilterVideoCategory }: any) => (
+const Videos = ({ searchTerm, categories, changeSearchTerm, filteredVideoTopics, filterVideoCategory, setFilterVideoCategory,  collapsed, setCollapsed, toggleCollapsed}: any) => (
   <div className="flex">
-    <div className="flex">
-      <aside className="w-44 fixed left-0  h-screen bg-slate-700 p-10 z-10 text-white">
+    <div className="flex parentF">
+      <aside className={`w-44 fixed left-0  h-screen bg-slate-300 p-10 z-10 text-black ${collapsed ? 'collapsed' : 'pol'} respDoc`} >
         {categories.map((category: any) => (
           <div key={category}>
             <input type="radio" id={category} name={category} value={category} checked={filterVideoCategory.includes(category)} onChange={(e) => setFilterVideoCategory(e.target.value)} />
@@ -165,6 +193,19 @@ const Videos = ({ searchTerm, categories, changeSearchTerm, filteredVideoTopics,
           </div>
         ))}
       </aside>
+      <div className={`block fixed ${collapsed ? 'posarrow2' : 'posarrow'} top-1/2 z-40`}>
+        <button className="z-20 block" onClick={toggleCollapsed}>
+          {collapsed ? 
+            <div className="">
+              <i className="arrow right"></i>
+            </div>  
+            : 
+            <div className="">
+              <i className="arrow left"></i>
+            </div> 
+          }
+        </button>
+      </div>
     </div>
     <div className="mx-auto">
       <div className="flex justify-center z-10">
@@ -223,10 +264,10 @@ const Videos = ({ searchTerm, categories, changeSearchTerm, filteredVideoTopics,
 
 
 
-const Documentation = ({ categories, filterDocCategory, searchTerm, setSearchTerm, filteredDocTopics, setFilterDocCategory }: any) => (
+const Documentation = ({ categories, filterDocCategory, searchTerm, setSearchTerm, filteredDocTopics, setFilterDocCategory, collapsed, setCollapsed, toggleCollapsed}: any) => (
   <div className="flex">
-    <div className="flex">
-      <aside className="w-44 fixed left-0  h-screen bg-slate-700 p-10 z-10 text-white">
+    <div className="flex parentF">
+      <aside className={`w-44 fixed left-0 h-screen bg-slate-300 p-10 z-10 text-black ${collapsed ? 'collapsed' : 'pol'} respDoc`} >
         {categories.map((category: any) => (
           <div key={category}>
             <input type="radio" id={category} name={category} value={category} checked={filterDocCategory.includes(category)} onChange={(e) => setFilterDocCategory(e.target.value)} />
@@ -234,6 +275,19 @@ const Documentation = ({ categories, filterDocCategory, searchTerm, setSearchTer
           </div>
         ))}
       </aside>
+      <div className={`block fixed ${collapsed ? 'posarrow2' : 'posarrow'} top-1/2 z-40`}>
+        <button className="z-20 block" onClick={toggleCollapsed}>
+          {collapsed ? 
+            <div className="">
+              <i className="arrow right"></i>
+            </div>  
+            : 
+            <div className="">
+              <i className="arrow left"></i>
+            </div> 
+          }
+        </button>
+      </div>
     </div>
     <div className="mx-auto">
       <div className="flex justify-center z-10">
@@ -244,9 +298,9 @@ const Documentation = ({ categories, filterDocCategory, searchTerm, setSearchTer
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-4 lg:gap-8" style={{ width: '75vw', marginLeft: '10vw' }}>
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-4 lg:gap-8 docDiv">
         {filteredDocTopics.map((docTopic: any) => (
-          <a href="#" className="relative block overflow-hidden rounded-lg border border-gray-100 p-4 sm:p-6 lg:p-8 transition-transform transform-gpu hover:scale-105 hover:shadow-lg" style={{ width: '200px' }}>
+          <a href="#" className="relative block overflow-hidden rounded-lg border border-gray-100 p-4 sm:p-6 lg:p-8 transition-transform transform-gpu hover:scale-105 hover:shadow-lg doclists">
 
             <div className="flex sm:justify-between sm:gap-4 ">
               <div>

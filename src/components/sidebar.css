@@ -1,0 +1,86 @@
+.collapsed {
+  margin-left: -100vw;
+  position: relative !important;
+  transition:margin-left 1s ease-in;
+  /*display: none !important;*/
+}
+
+.pol{
+  width: 16vw;
+  transition:margin-left 0.3s ease-in;
+}
+
+.parentF{
+  overflow: hidden;
+}
+
+.collapsed + .posarrow {
+  left: ;
+}
+
+.posarrow{
+  left: 16vw !important;
+  transition: left 0.3s ease-in;
+}
+
+.posarrow2{
+  left: 0 !important;
+  transition: left 0.3s ease-in;
+}
+
+@media only screen and (max-width: 1023px) {
+  .respDoc {
+    width: 30vw;
+  }
+  .posarrow{
+    left: 30vw !important;
+    transition: left 0.3s ease-in;
+  }
+  .posarrow2{
+    left: 0vw !important;
+    transition: left 0.3s ease-in;
+  }
+  .docDiv{
+    width: 100vw;
+    margin-left: 10vw;
+  }
+  .doclists{
+    width: 75vw !important;
+  }
+}
+
+.doclists{
+  width: 17vw;
+}
+
+.docDiv{
+  width: 75vw;
+  margin-left: 10vw;
+}
+
+.arrow {
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+}
+
+.right {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.left {
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+}
+
+.up {
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+}
+
+.down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}

@@ -1,83 +1,81 @@
-"use client"
-import React, { useCallback, useRef } from "react"
+// use client
+// import React, { useCallback, useRef } from "react"
 import Image from "next/image"
 import InfiniteScroll from "react-infinite-scroller"
-import { observer } from "mobx-react-lite"
+// import { observer } from "mobx-react-lite"
 import { useIssuesStore } from "../models/IssuesStore"
 import {
-    Header,
-    Bookmark,
-    Country,
     CountryRef,
     Label,
     LabelRef,
     Search,
     SearchRef,
-    CardIssue,
-    Technologies,
+    CardIssue
 } from "../components"
 import { AppContext } from "@/components/context"
 
 const Jobs = () => {
-    const labelRef = useRef<LabelRef>(null)
-    const searchRef = useRef<SearchRef>(null)
-    const countryRef = useRef<CountryRef>(null)
-    const headerRef = useRef<null | HTMLDivElement>(null)
-    const { isAdmin, toggleIsAdmin } = React.useContext(AppContext) 
-    console.log('isAdmin', isAdmin)
+    // const labelRef = useRef<LabelRef>(null)
+    // const searchRef = useRef<SearchRef>(null)
+    // const countryRef = useRef<CountryRef>(null)
+    // const headerRef = useRef<null | HTMLDivElement>(null)
+    // const { isAdmin, toggleIsAdmin } = React.useContext(AppContext) 
+    // console.log('isAdmin', isAdmin)
 
     const { isLoading, issues, fetchIssues, loadMoreIssues } = useIssuesStore()
 
-    const getQuery = (params = "") => {
-        const text = params || searchRef.current?.getValue()
-        const label = labelRef.current?.getValue()
-        const country = countryRef.current?.getValue()
-        const query = ((label ? `label:${label}` : "") + ` ${text} ${country}`)
-            .split(" ")
-            .filter(Boolean)
-            .join(" ")
-        return query
-    }
+    // const getQuery = (params = "") => {
+    //     // const text = params || searchRef.current?.getValue()
+    //     // const label = labelRef.current?.getValue()
+    //     // const country = countryRef.current?.getValue()
+    //     const query = ((label ? `label:${label}` : "") + ` ${text} ${country}`)
+    //         .split(" ")
+    //         .filter(Boolean)
+    //         .join(" ")
+    //     return query
+    // }
 
-    const handleSearch = () => {
-        fetchIssues(getQuery())
-    }
+    // const handleSearch = () => {
+    //     fetchIssues(getQuery())
+    // }
 
-    const handleLoadMore = (page: number) => {
-        loadMoreIssues(getQuery(), page)
-    }
+    // const handleLoadMore = (page: number) => {
+    //     loadMoreIssues(getQuery(), page)
+    // }
 
-    const handleSearchTech = useCallback(
-        (tech: string) => {
-            fetchIssues(getQuery(tech))
-            searchRef.current?.setValue(tech)
-            headerRef.current?.scrollIntoView({ behavior: "smooth", block: "end" })
-        },
-        [fetchIssues],
-    )
+    // const handleSearchTech = useCallback(
+    //     (tech: string) => {
+    //         fetchIssues(getQuery(tech))
+    //         searchRef.current?.setValue(tech)
+    //         headerRef.current?.scrollIntoView({ behavior: "smooth", block: "end" })
+    //     },
+    //     [fetchIssues],
+    // )
 
     const RenderList = () => {
         if (Array.isArray(issues?.items)) {
             return (
                 <div className="grid grid-cols-1 sm:grid-cols-1 gap-x-6 gap-y-20 pt-5 pb-10">
                     {issues.items.map((item: any, index: any) => (
-                        <CardIssue
-                            key={`${item.node_id}${index}`}
-                            item={item}
-                            onSeach={handleSearchTech}
-                        />
+                        <></>
+                        // <CardIssue
+                        //     key={`${item.node_id}${index}`}
+                        //     item={item}
+                        //     // onSeach={handleSearchTech}
+                        // />
                     ))}
                 </div>
             )
         }
         return (
-            <Image
-                src="/looking.svg"
-                alt="looking"
-                width={219}
-                height={223}
-                className="mx-auto mt-5"
-            />
+            <></>
+            // <Image
+            //     src="/looking.svg"
+            //     alt="looking"
+            //     width={219}
+            //     height={223}
+            //     className="mx-auto mt-5"
+            // />
         )
     }
 
@@ -85,27 +83,27 @@ const Jobs = () => {
         // !isLoading && Boolean(issues && issues?.items.length && issues?.items.length < issues?.total_count)
 
     return (
-        <InfiniteScroll
-            pageStart={1}
-            loadMore={handleLoadMore}
+        <div
+            // pageStart={1}
+            // loadMore={handleLoadMore}
             // hasMore={isHasMore}
-            loader={
-                <div className="text-center mb-3" key={0}>
-                    Loading...
-                </div>
-            }
+            // loader={
+            //     <div className="text-center mb-3" key={0}>
+            //         Loading...
+            //     </div>
+            // }
         >
             <>
                 <main>
                     {/* <Header ref={headerRef} /> */}
                     <div className="px-4 md:px-8">
                         <div className="flex flex-wrap gap-2 my-5 md:my-10 p-3 sticky top-2 z-0 bg-white rounded-xl border-2 border-black shadow-[4px_4px_0px_#7cc470]">
-                            <Label ref={labelRef} />
-                            <Search ref={searchRef} />
+                            {/* <Label ref={labelRef} />
+                            <Search ref={searchRef} /> */}
                             {/* <Country ref={countryRef} /> */}
                             <div
                                 className="h-10 font-semibold text-sm cursor-pointer bg-primary py-1.5 px-4 rounded-md flex items-center justify-center"
-                                onClick={handleSearch}
+                                // onClick={handleSearch}
                             >
                                 Find
                             </div>
@@ -121,10 +119,17 @@ const Jobs = () => {
                 </main>
             </>
             {/* <Bookmark onSeach={handleSearchTech} /> */}
-        </InfiniteScroll>
+        </div>
     )
 }
 
-export default observer(Jobs)
+export default (Jobs)
 
 
+// export default function  () {
+//     return (
+//         <div>
+//             <h1>Jobs</h1>
+//         </div>
+//     )
+// }

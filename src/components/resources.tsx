@@ -2,9 +2,20 @@
 import React, { useState, useEffect } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { Cross2Icon } from '@radix-ui/react-icons';
-import 'quill/dist/quill.snow.css'
+import 'react-quill/dist/quill.snow.css'
+import 'react-quill/dist/quill.core.css'
+import 'react-quill/dist/quill.bubble.css'
+import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import './sidebar.css';
+import Link from 'next/link'
+
+interface Docs {
+  name: string;
+  text: string;
+  category: string;
+}
+
 
 const ReactQuill = dynamic(() => import('react-quill'), {
   ssr: false,
@@ -14,6 +25,7 @@ const ReactQuill = dynamic(() => import('react-quill'), {
 const Resources = () => {
   const [currFileData, setCurrFileData] = useState();
   const [saving, setSaving] = useState(false);
+  const [value, setValue] = useState('P');
 
   const [searchTerm, setSearchTerm] = useState('');
   const [filterVideoCategory, setFilterVideoCategory] = useState('All'); // Default to 'All'
@@ -50,7 +62,8 @@ const Resources = () => {
     "link", "image", "align", "size",
   ];
   const handleProcedureContentChange = (content: any) => {
-    console.log("content---->", content);
+    //console.log("content---->", content);
+    setValue(content);
   };
   const docTopics = [
     { id: 1, name: 'React Basics Documentation', text: "ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit", category: 'Technology' },
@@ -111,7 +124,9 @@ const Resources = () => {
   const categories = ['All', 'Technology', 'Science', 'Arts', 'Sports'];
 
 
-
+  const handlePost = () => {
+    console.log(value);
+  };
 
 
   return (
@@ -168,10 +183,13 @@ const Resources = () => {
                 theme="snow"
                 modules={modules}
                 formats={formats}
+                content={value}
                 placeholder="write your content ...."
                 onChange={handleProcedureContentChange}
                 style={{ height: "50vh" , width: "50vw" }} />
+              <button className="relative right-0 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-full" style={{ width: '15%', left: '80%' }} onClick={handlePost}>Submit</button>
             </div>
+
           </div>
         </Dialog.Portal>
       </Dialog.Root>
@@ -193,8 +211,8 @@ const Videos = ({ searchTerm, categories, changeSearchTerm, filteredVideoTopics,
           </div>
         ))}
       </aside>
-      <div className={`block fixed ${collapsed ? 'posarrow2' : 'posarrow'} top-1/2 z-40`}>
-        <button className="z-20 block" onClick={toggleCollapsed}>
+      <div className={`block fixed ${collapsed ? 'posarrow2' : 'posarrow'} top-1/2 z-20`}>
+        <button className="z-10 block" onClick={toggleCollapsed}>
           {collapsed ? 
             <div className="">
               <i className="arrow right"></i>
@@ -264,7 +282,23 @@ const Videos = ({ searchTerm, categories, changeSearchTerm, filteredVideoTopics,
 
 
 
-const Documentation = ({ categories, filterDocCategory, searchTerm, setSearchTerm, filteredDocTopics, setFilterDocCategory, collapsed, setCollapsed, toggleCollapsed}: any) => (
+const Documentation = ({ categories, filterDocCategory, searchTerm, setSearchTerm, filteredDocTopics, setFilterDocCategory, collapsed, setCollapsed, toggleCollapsed}: any) => {
+  
+  const handleClick = (name1: string, text1: string, category1: string) => {
+        
+        const docD: Docs = {
+          name: name1,
+          text: text1,
+          category: category1,
+        };
+
+        router.push({
+            pathname: '/doc',
+            query: { ...docD },
+        });
+    };
+
+  return (
   <div className="flex">
     <div className="flex parentF">
       <aside className={`w-44 fixed left-0 h-screen bg-slate-300 p-10 z-10 text-black ${collapsed ? 'collapsed' : 'pol'} respDoc`} >
@@ -275,8 +309,8 @@ const Documentation = ({ categories, filterDocCategory, searchTerm, setSearchTer
           </div>
         ))}
       </aside>
-      <div className={`block fixed ${collapsed ? 'posarrow2' : 'posarrow'} top-1/2 z-40`}>
-        <button className="z-20 block" onClick={toggleCollapsed}>
+      <div className={`block fixed ${collapsed ? 'posarrow2' : 'posarrow'} top-1/2 z-20`}>
+        <button className="z-10 block" onClick={toggleCollapsed}>
           {collapsed ? 
             <div className="">
               <i className="arrow right"></i>
@@ -300,7 +334,8 @@ const Documentation = ({ categories, filterDocCategory, searchTerm, setSearchTer
       </div>
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-4 lg:gap-8 docDiv">
         {filteredDocTopics.map((docTopic: any) => (
-          <a href="#" className="relative block overflow-hidden rounded-lg border border-gray-100 p-4 sm:p-6 lg:p-8 transition-transform transform-gpu hover:scale-105 hover:shadow-lg doclists">
+          <Link legacyBehavior href={{ pathname: '/resources/doc', query: { name: docTopic.name, text: docTopic.text, category: docTopic.category }, }}>
+          <a href="" className="relative block overflow-hidden rounded-lg border border-gray-100 p-4 sm:p-6 lg:p-8 transition-transform transform-gpu hover:scale-105 hover:shadow-lg doclists">
 
             <div className="flex sm:justify-between sm:gap-4 ">
               <div>
@@ -318,9 +353,10 @@ const Documentation = ({ categories, filterDocCategory, searchTerm, setSearchTer
               </p>
             </div>
           </a>
-
+          </Link>
         ))}
       </div>
     </div>
   </div>
-);
+  );
+};

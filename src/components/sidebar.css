@@ -47,6 +47,9 @@
   .doclists{
     width: 75vw !important;
   }
+  .doc{
+    left: 0vw;
+  }
 }
 
 .doclists{
@@ -83,4 +86,27 @@
 .down {
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
+}
+
+.doc{
+  left: 5vw;
+}
+
+.back{
+  color: black !important;
+  font-size: 24px;
+}
+
+.backbutton{
+  padding: 8px 8px;
+  position: relative;
+  top: 10px;
+  border-radius: 50px;
+  border-color: black;
+  background-color: whitesmoke;
+}
+
+.tabButton{
+  color: #7C3AED !important;
+  border-color: #7C3AED !important;
 }

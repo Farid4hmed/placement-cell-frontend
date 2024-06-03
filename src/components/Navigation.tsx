@@ -1,6 +1,6 @@
 'use client';
 import React from "react"
-import { Building2, LibraryBig, Home } from 'lucide-react';
+import { Building2, LibraryBig, ReceiptText, Home } from 'lucide-react';
 import { initFlowbite } from 'flowbite'
 import Logout from "./logout";
 import { useRouter } from 'next/navigation'
@@ -86,6 +86,12 @@ const Navigation = ({ children, ...props }: any) => {
                                 <Link href={`/resources`} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                     <LibraryBig strokeWidth={1.25} />
                                     <span className="ms-3">Resources</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href={`/resume`} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                    <ReceiptText strokeWidth={1.25} />
+                                    <span className="ms-3">Resume Generator</span>
                                 </Link>
                             </li>
                             <li>

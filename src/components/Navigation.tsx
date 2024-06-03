@@ -88,6 +88,12 @@ const Navigation = ({ children, ...props }: any) => {
                                     <span className="ms-3">Resources</span>
                                 </Link>
                             </li>
+                            <li>
+                                <Link href={`https://cerulean-muffin-74f94a.netlify.app?email=${session.user.email}`} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                    <LibraryBig strokeWidth={1.25} />
+                                    <span className="ms-3">Your Files</span>
+                                </Link>
+                            </li>
                         </ul>
                     </div>
                 </aside>

@@ -60,7 +60,6 @@ const Resources = () => {
     { id: 1, name: 'React Basics Documentation', text: "ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit", category: 'Technology' },
     { id: 2, name: 'Node.js Documentation', text: "ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit", category: 'Technology' },
     { id: 3, name: 'Art History Documentation', text: "ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit", category: 'Arts' },
-    // Add more topics here...
   ];
 
   // Filter topics based on search term and category
@@ -103,14 +102,14 @@ const Resources = () => {
 
     return () => {
       window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+    }
+  }, [])
 
   // Function to handle tab click
   const handleTabClick = (tabNumber: any) => {
     setActiveTab(tabNumber);
     setClicked(!clicked);
-  };
+  }
   // List of available categories (you can customize this)
   const categories = ['All', 'Technology', 'Science', 'Arts', 'Sports'];
 
@@ -174,7 +173,7 @@ const Resources = () => {
                 theme="snow"
                 modules={modules}
                 formats={formats}
-                content={value}
+                // content={value}
                 placeholder="write your content ...."
                 onChange={handleProcedureContentChange}
                 style={{ height: "50vh" , width: "50vw" }} />

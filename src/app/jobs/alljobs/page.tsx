@@ -1,6 +1,6 @@
 import Navigation from "@/components/Navigation";
 import { getServerSession } from "next-auth";
-import Jobs from "./jobs";
+import Jobs from "../alljobs/jobs";
 
 export default async function Home() {
   const session = await getServerSession()

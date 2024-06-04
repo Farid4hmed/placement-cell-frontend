@@ -31,12 +31,7 @@ const Resources = () => {
   const [filterVideoCategory, setFilterVideoCategory] = useState('All'); // Default to 'All'
   const [filterDocCategory, setFilterDocCategory] = useState('All');
   const [clicked, setClicked] = useState(false);
-  const vidTopics = [
-    { id: 1, name: 'React Basics', text: "ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit", category: 'React' },
-    { id: 2, name: 'Node.js', text: "ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit", category: 'javascript' },
-    { id: 3, name: 'Django History', text: "ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit", category: 'Django' },
-    // Add more topics here...
-  ];
+  const [vidTopics, setVidTopics] = useState<any[]>([]); 
 
   var modules = {
     toolbar: [
@@ -65,172 +60,8 @@ const Resources = () => {
     //console.log("content---->", content);
     setValue(content);
   };
-  const docTopics = [
-    { id: 1, name: 'React Basics Documentation', text: `
-    <main className="w-3/4 p-6 bg-white shadow-md rounded-lg ml-6">
-        <!-- Node.js Documentation -->
-        <section id="react-introduction" className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">React - Introduction</h2>
-            <p className="text-gray-700">Welcome to the React documentation. Here you will find all the information you need to get started with React.</p>
-        </section>
-
-        <section id="react-installation" className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">React - Installation</h2>
-            <p className="text-gray-700">To install React, follow these steps:</p>
-            <pre className="bg-gray-100 p-4 rounded-lg overflow-x-auto"><code>npx create-react-app my-app</code></pre>
-        </section>
-
-        <section id="react-usage" className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">React - Usage</h2>
-            <p className="text-gray-700">Here are some examples of how to use React:</p>
-            <pre className="bg-gray-100 p-4 rounded-lg overflow-x-auto">
-                <code>
-                    import React from 'react';
-                    import ReactDOM from 'react-dom';
-
-                    function App() {
-                      return (
-                        <div>
-                          <h1>Hello, world!</h1>
-                        </div>
-                      );
-                    }
-
-                    ReactDOM.render(<App />, document.getElementById('root'));
-                </code>
-            </pre>
-        </section>
-
-        <section id="react-api" className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">React - API Reference</h2>
-            <p className="text-gray-700">For detailed API information, refer to the following documentation:</p>
-            <ul className="list-disc list-inside text-gray-700">
-                <li><strong>Method 1:</strong> <code>ReactDOM.render()</code> - Renders a React component</li>
-                <li><strong>Method 2:</strong> <code>useState()</code> - Returns a stateful value and a function to update it</li>
-            </ul>
-        </section>
-
-        <section id="react-faq" className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">React - FAQ</h2>
-            <p className="text-gray-700">Frequently Asked Questions:</p>
-            <ul className="list-disc list-inside text-gray-700">
-                <li><strong>Question 1:</strong> How do I install React? <br> <strong>Answer:</strong> Use the command <code>npx create-react-app my-app</code>.</li>
-                <li><strong>Question 2:</strong> How do I create a React component? <br> <strong>Answer:</strong> Create a function that returns JSX and use <code>ReactDOM.render()</code> to render it.</li>
-            </ul>
-        </section>
-        </main>`, category: 'React' },
-    { id: 2, name: 'Node.js Documentation', text: `
-    <main className="w-3/4 p-6 bg-white shadow-md rounded-lg ml-6">
-        <!-- Node.js Documentation -->
-        <section id="nodejs-introduction" className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Node.js - Introduction</h2>
-            <p className="text-gray-700">Welcome to the Node.js documentation. Here you will find all the information you need to get started with Node.js.</p>
-        </section>
-
-        <section id="nodejs-installation" className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Node.js - Installation</h2>
-            <p className="text-gray-700">To install Node.js, follow these steps:</p>
-            <pre className="bg-gray-100 p-4 rounded-lg overflow-x-auto"><code>npm install node</code></pre>
-        </section>
-
-        <section id="nodejs-usage" className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Node.js - Usage</h2>
-            <p className="text-gray-700">Here are some examples of how to use Node.js:</p>
-            <pre className="bg-gray-100 p-4 rounded-lg overflow-x-auto">
-                <code>
-                    const http = require('http');
-                    const hostname = '127.0.0.1';
-                    const port = 3000;
-                    
-                    const server = http.createServer((req, res) => {
-                      res.statusCode = 200;
-                      res.setHeader('Content-Type', 'text/plain');
-                      res.end('Hello World\n');
-                    });
-                    
-                    server.listen(port, hostname, () => {
-                      console.log(\`Server running at http://\${hostname}:\${port}/\`);
-                    });
-                </code>
-            </pre>
-        </section>
-
-        <section id="nodejs-api" className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Node.js - API Reference</h2>
-            <p className="text-gray-700">For detailed API information, refer to the following documentation:</p>
-            <ul className="list-disc list-inside text-gray-700">
-                <li><strong>Method 1:</strong> <code>http.createServer()</code> - Creates an HTTP server</li>
-                <li><strong>Method 2:</strong> <code>res.end()</code> - Ends the response process</li>
-            </ul>
-        </section>
-
-        <section id="nodejs-faq" className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Node.js - FAQ</h2>
-            <p className="text-gray-700">Frequently Asked Questions:</p>
-            <ul className="list-disc list-inside text-gray-700">
-                <li><strong>Question 1:</strong> How do I install Node.js? <br> <strong>Answer:</strong> Use the command <code>npm install node</code>.</li>
-                <li><strong>Question 2:</strong> How do I create a server in Node.js? <br> <strong>Answer:</strong> Use the <code>http.createServer()</code> method.</li>
-            </ul>
-        </section>
-        </main>`, category: 'javascript' },
-    { id: 3, name: 'Django Documentation', text: `
-    <main className="w-3/4 p-6 bg-white shadow-md rounded-lg ml-6">
-        <!-- Node.js Documentation -->
-        <section id="python-introduction" className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Python - Introduction</h2>
-            <p className="text-gray-700">Welcome to the Python documentation. Here you will find all the information you need to get started with Python.</p>
-        </section>
-
-        <section id="python-installation" className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Python - Installation</h2>
-            <p className="text-gray-700">To install Python, follow these steps:</p>
-            <pre className="bg-gray-100 p-4 rounded-lg overflow-x-auto"><code>sudo apt-get install python3</code></pre>
-        </section>
-
-        <section id="python-usage" className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Python - Usage</h2>
-            <p className="text-gray-700">Here are some examples of how to use Python:</p>
-            <pre className="bg-gray-100 p-4 rounded-lg overflow-x-auto">
-                <code>
-                    print("Hello, World!")
-                </code>
-            </pre>
-        </section>
-
-        <section id="python-api" className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Python - API Reference</h2>
-            <p className="text-gray-700">For detailed API information, refer to the following documentation:</p>
-            <ul className="list-disc list-inside text-gray-700">
-                <li><strong>Method 1:</strong> <code>print()</code> - Prints to the console</li>
-                <li><strong>Method 2:</strong> <code>len()</code> - Returns the length of an object</li>
-            </ul>
-        </section>
-
-        <section id="python-faq" className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Python - FAQ</h2>
-            <p className="text-gray-700">Frequently Asked Questions:</p>
-            <ul className="list-disc list-inside text-gray-700">
-                <li><strong>Question 1:</strong> How do I install Python? <br> <strong>Answer:</strong> Use the command <code>sudo apt-get install python3</code>.</li>
-                <li><strong>Question 2:</strong> How do I print to the console in Python? <br> <strong>Answer:</strong> Use the <code>print()</code> function.</li>
-            </ul>
-        </section>
-        </main>
-    `, category: 'Django' },
-    // Add more topics here...
-  ];
-
+  const [docTopics, setDocTopics] = useState<any[]>([]);
   // Filter topics based on search term and category
-  const filteredVideoTopics = vidTopics.filter((vidTopic) => {
-    const matchesSearch = vidTopic.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = filterVideoCategory === 'All' || vidTopic.category === filterVideoCategory;
-    return matchesSearch && matchesCategory;
-  });
-
-  const filteredDocTopics = docTopics.filter((docTopic) => {
-    const matchesSearch = docTopic.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = filterDocCategory === 'All' || docTopic.category === filterDocCategory;
-    return matchesSearch && matchesCategory;
-  });
 
   const [activeTab, setActiveTab] = useState(1);
 
@@ -262,6 +93,37 @@ const Resources = () => {
     };
   }, []);
 
+  useEffect(() => {
+    videoFetch();
+    docFetch();
+  }, []);
+
+  async function videoFetch() {
+    const response = await fetch('/api/getVideo');
+    const data = await response.json()
+    console.log('data', data)
+    setVidTopics(data.data);
+  }
+  
+  async function docFetch() {
+    const response = await fetch('/api/getDocuments');
+    const data = await response.json()
+    console.log('data', data)
+    setDocTopics(data.data);
+  }
+
+  const filteredVideoTopics = vidTopics.filter((vidTopic) => {
+    const matchesSearch = vidTopic.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = filterVideoCategory === 'All' || vidTopic.category === filterVideoCategory;
+    return matchesSearch && matchesCategory;
+  });
+
+  const filteredDocTopics = docTopics.filter((docTopic) => {
+    const matchesSearch = docTopic.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = filterDocCategory === 'All' || docTopic.category === filterDocCategory;
+    return matchesSearch && matchesCategory;
+  });
+
   // Function to handle tab click
   const handleTabClick = (tabNumber: any) => {
     setActiveTab(tabNumber);
@@ -270,9 +132,10 @@ const Resources = () => {
   // List of available categories (you can customize this)
   const categories = ['All', 'Java', 'javascript', 'React', 'Python', 'DSA', 'Django'];
 
+  const [postParam, setPostParam] = useState(0); 
 
   const handlePost = () => {
-    console.log(value);
+    
   };
 
 
@@ -381,6 +244,7 @@ const Videos = ({ searchTerm, categories, changeSearchTerm, filteredVideoTopics,
     <div className="mx-auto">
       <div className="flex justify-center z-10">
         <input
+          class="block searchBox p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 "
           type="text"
           placeholder="Search topics..."
           defaultValue={searchTerm}
@@ -415,7 +279,7 @@ const Videos = ({ searchTerm, categories, changeSearchTerm, filteredVideoTopics,
                 <Dialog.Title className="text-mauve12 m-0 text-[17px] font-medium">
                   {vidTopic.name}
                 </Dialog.Title>
-                <iframe width="402" height="300" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
+                <iframe width="402" height="300" src={vidTopic.videolink}></iframe>
                 <Dialog.Description className="text-mauve11 mt-[10px] mb-5 text-[15px] leading-normal">
                   {vidTopic.text}
                 </Dialog.Description>
@@ -453,7 +317,7 @@ const Documentation = ({ categories, filterDocCategory, searchTerm, setSearchTer
         <aside className={`w-44 fixed left-0 h-screen bg-slate-300 p-10 z-10 text-black ${collapsed ? 'collapsed' : 'pol'} respDoc`}>
           {categories.map((category: any) => (
             <div key={category}>
-              <input type="radio" id={category} name="category" value={category} checked={filterDocCategory.includes(category)} onChange={(e) => setFilterDocCategory(e.target.value)} />
+              <input style={{ accentColor: "#7c3aed" }} type="radio" id={category} name="category" value={category} checked={filterDocCategory.includes(category)} onChange={(e) => setFilterDocCategory(e.target.value)} />
               <label htmlFor={category}>{category}</label>
             </div>
           ))}
@@ -476,6 +340,7 @@ const Documentation = ({ categories, filterDocCategory, searchTerm, setSearchTer
         <div className="mx-auto">
           <div className="flex justify-center z-10">
             <input
+              class="block searchBox p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
               type="text"
               placeholder="Search topics..."
               defaultValue={searchTerm}
@@ -499,7 +364,7 @@ const Documentation = ({ categories, filterDocCategory, searchTerm, setSearchTer
                 </div>
                 <div className="mt-4">
                   <p className="text-pretty text-sm text-gray-500">
-                    {docTopic.text.length > 90 ? docTopic.text.slice(0, 90) + '...' : docTopic.text}
+                    {docTopic.pretext.length > 90 ? docTopic.pretext.slice(0, 90) + '...' : docTopic.pretext}
                   </p>
                 </div>
               </a>

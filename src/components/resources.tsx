@@ -130,7 +130,64 @@ const Resources = () => {
     setClicked(!clicked);
   };
   // List of available categories (you can customize this)
-  const categories = ['All', 'Java', 'javascript', 'React', 'Python', 'DSA', 'Django'];
+  const categories = [
+    {
+      image: "/images/Star.png",
+      name: 'All',
+    },
+    {
+      image: "/images/Java.png",
+      name: 'Java',
+    },
+    {
+      image: "/images/Javascript.png",
+      name: 'Javascript', 
+    },
+    {
+      image: "/images/React.png",
+      name: 'React',
+    },
+    {
+      image: "/images/Vue.png",
+      name: 'Vue',
+    },
+    {
+      image: "/images/Python.png",
+      name: 'Python',
+    },
+    {
+      image: "/images/Django.png",
+      name: 'Django',
+    },
+    {
+      image: "/images/Angular.png",
+      name: 'Angular',
+    },
+    {
+      image: "/images/Spring.png",
+      name: 'Spring',
+    },
+    {
+      image: "/images/ASP.png",
+      name: 'ASP.NET', 
+    },
+    {
+      image: "/images/laravel.png",
+      name: 'Laravel', 
+    },
+    {
+      image: "/images/PHP.png",
+      name: 'PHP',
+    },
+    {
+      image: "/images/Ruby.png",
+      name: 'Ruby',
+    },
+    {
+      image: "/images/Rails.png",
+      name: 'Ruby on Rails',
+    } 
+  ];
 
   const [postParam, setPostParam] = useState(0); 
 
@@ -222,8 +279,11 @@ const Videos = ({ searchTerm, categories, changeSearchTerm, filteredVideoTopics,
       <aside className={`w-44 fixed left-0  h-screen bg-slate-300 p-10 z-10 text-black ${collapsed ? 'collapsed' : 'pol'} respDoc`} >
         {categories.map((category: any) => (
           <div key={category}>
-            <input style={{ accentColor: "#7c3aed" }} type="radio" id={category} name={category} value={category} checked={filterVideoCategory.includes(category)} onChange={(e) => setFilterVideoCategory(e.target.value)} />
-            <label htmlFor={category}>{category}</label>
+            <input style={{ accentColor: "#7c3aed" }} class="radioButton" type="radio" id={category.name} name={category.name} value={category.name} checked={filterVideoCategory.includes(category)} onChange={(e) => setFilterVideoCategory(e.target.value)} />
+            <label class="opt" htmlFor={category.name}>
+              <img src={category.image} alt="Label" />
+              {category.name}
+            </label>
           </div>
         ))}
       </aside>
@@ -317,8 +377,11 @@ const Documentation = ({ categories, filterDocCategory, searchTerm, setSearchTer
         <aside className={`w-44 fixed left-0 h-screen bg-slate-300 p-10 z-10 text-black ${collapsed ? 'collapsed' : 'pol'} respDoc`}>
           {categories.map((category: any) => (
             <div key={category}>
-              <input style={{ accentColor: "#7c3aed" }} type="radio" id={category} name="category" value={category} checked={filterDocCategory.includes(category)} onChange={(e) => setFilterDocCategory(e.target.value)} />
-              <label htmlFor={category}>{category}</label>
+              <input style={{ accentColor: "#7c3aed" }} class="radioButton" type="radio" id={category.name} name={category.name} value={category.name} checked={filterDocCategory.includes(category)} onChange={(e) => setFilterDocCategory(e.target.value)} />
+              <label class="opt" htmlFor={category.name}>
+                <img src={category.image} alt="Label" />
+                {category.name}
+              </label>
             </div>
           ))}
         </aside>

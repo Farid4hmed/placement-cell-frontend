@@ -25,6 +25,23 @@
   outline-color: #7C3AED !important;
 }
 
+.radioButton{
+  display: none;
+}
+
+.opt{
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.opt img{
+  margin-right: 10px;
+  width: 30px;
+  height: 30px;
+}
+
 .collapsed + .posarrow {
   left: ;
 }

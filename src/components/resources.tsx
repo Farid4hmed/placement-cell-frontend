@@ -25,7 +25,7 @@ const ReactQuill = dynamic(() => import('react-quill'), {
 const Resources = () => {
   const [currFileData, setCurrFileData] = useState();
   const [saving, setSaving] = useState(false);
-  const [value, setValue] = useState('P');
+  const [postValue, setPostValue] = useState('P');
 
   const [searchTerm, setSearchTerm] = useState('');
   const [filterVideoCategory, setFilterVideoCategory] = useState('All'); // Default to 'All'
@@ -58,7 +58,9 @@ const Resources = () => {
   ];
   const handleProcedureContentChange = (content: any) => {
     //console.log("content---->", content);
-    setValue(content);
+    setPostValue(content);
+    const name = 'text';
+    setFormData({...formData, [name]: postValue});
   };
   const [docTopics, setDocTopics] = useState<any[]>([]);
   // Filter topics based on search term and category
@@ -186,15 +188,68 @@ const Resources = () => {
     {
       image: "/images/Rails.png",
       name: 'Ruby on Rails',
-    } 
+    },
+    {
+      image: "/images/Star.png",
+      name: '',
+    }
   ];
 
   const [postParam, setPostParam] = useState(0); 
-
-  const handlePost = () => {
+  const [formData, setFormData] = useState({
+    id: '',
+    topic: '',
+    pretext: '',
+    text: '',
+    category: '',
+  });
+ // const [postName, setPostName] = useState('');
+  const handlePost = async () => {
     
+    setPostParam(2);
+    const len = docTopics.length + 1;
+    setFormData({ ...formData, ['id']: len });
+    console.log(formData);
+    try {
+      const response = await fetch('/api/postDocuments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log(result);
+      } else {
+        console.error('Error submitting form');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const resetPost = () => {
+    setFormData({ ...formData, ['topic']: '' });
+    setFormData({ ...formData, ['pretext']: '' });
+    setFormData({ ...formData, ['text']: '' });
+
+    setFormData({ ...formData, ['category']: '' });
+    setPostParam(0);
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setPostParam(1);
+    console.log(formData);
+  }
 
   return (
     <div className="block">
@@ -225,47 +280,70 @@ const Resources = () => {
           toggleCollapsed = {toggleVidCollapse}
         />)}
       {activeTab === 2 &&
-        (<Documentation
-          categories={categories}
-          filterDocCategory={filterDocCategory}
-          setFilterDocCategory={setFilterDocCategory}
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          filteredDocTopics={filteredDocTopics}
-          collapsed = {docCollapsed}
-          setCollapsed = {setDocCollapsed}
-          toggleCollapsed = {toggleDocCollapse}
-        />)}
-      <Dialog.Root>
-        <Dialog.Trigger asChild>
-          <div className="fixed bottom-10 right-20 z-100">
-            <button style={{ backgroundColor: "#7c3aed" }} className=" hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full hover:shadow-lg">Post</button>
-          </div>
-        </Dialog.Trigger>
-        <Dialog.Portal>
-          <Dialog.Content>
-            <div className="" style={{ position: 'absolute', top: '25vh', left: '25vw', backgroundColor: '#F5F5F5' }}>
-              <h1 style={{ textAlign: "center" }}>Text Editor In React JS</h1>
-              <div style={{ display: "grid", justifyContent: "center" }}>
-                <ReactQuill
-                  theme="snow"
-                  modules={modules}
-                  formats={formats}
-                  content={value}
-                  placeholder="write your content ...."
-                  onChange={handleProcedureContentChange}
-                  style={{ height: "50vh" , width: "50vw" }} />
-                <button className="relative right-0 hover:bg-blue-700 text-white font-bold rounded-full" style={{ backgroundColor: "#7c3aed", width: '15%', left: '80%' }} onClick={handlePost}>Submit</button>
-              </div>
+        (<div>
+          <Documentation
+            categories={categories}
+            filterDocCategory={filterDocCategory}
+            setFilterDocCategory={setFilterDocCategory}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            filteredDocTopics={filteredDocTopics}
+            collapsed = {docCollapsed}
+            setCollapsed = {setDocCollapsed}
+            toggleCollapsed = {toggleDocCollapse}
+          />
+        <Dialog.Root>
+          <Dialog.Trigger asChild>
+            <div className="fixed bottom-10 right-20 z-100">
+              <button style={{ backgroundColor: "#7c3aed" }} className=" hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full hover:shadow-lg" onClick={resetPost}>Post</button>
             </div>
-            <Dialog.Close asChild>
-                <button className="text-violet11 hover:bg-violet4 focus:shadow-violet7 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none z-20" aria-label="Close">
-                  <Cross2Icon />
-                </button>
-            </Dialog.Close>
-          </Dialog.Content>
-        </Dialog.Portal>
-      </Dialog.Root>
+          </Dialog.Trigger>
+          <Dialog.Portal>
+            <Dialog.Content>
+              {postParam === 0 && (
+                <div className="bg-white p-8 rounded-lg shadow-md w-80" style={{ position: 'fixed', top: '20vh', left: '40vw', backgroundColor: '#F5F5F5' }}>
+                  <h1 className="text text-xl font-bold mb-4">New Post</h1>
+                  <form onSubmit={handleSubmit}>
+                    <div className="mb-2">
+                      <label>Topic</label><br />
+                      <input type="text" placeholder="Topic" name="topic" value={formData.topic} onChange={handleChange} className="bg-white p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                    </div>
+                    <div class="mb-2">
+                      <label>A line about the Topic</label><br />
+                      <input type="textarea" placeholder="Description" style={{ height: "100px" }} name="pretext" value={formData.pretext} onChange={handleChange} className="bg-white p-2 rounded w-full h-20 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                    </div>
+                    <div className="mb-2">
+                      <label>Category</label><br />
+                      <input type="text" placeholder="Java" name="category" value={formData.category} onChange={handleChange} className="bg-white p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                    </div>
+                    <button type="submit" className="bg-indigo-500 text-white p-2 rounded w-full hover:bg-indigo-600">Next →</button>
+                  </form>
+                </div>)}
+              {postParam === 1 && (
+              <div className="" style={{ position: 'absolute', top: '25vh', left: '25vw', backgroundColor: '#F5F5F5' }}>
+                <h1 style={{ textAlign: "center" }}>Text Editor In React JS</h1>
+                <div style={{ display: "grid", justifyContent: "center" }}>
+                  <ReactQuill
+                    theme="snow"
+                    modules={modules}
+                    formats={formats}
+                    content={postValue}
+                    placeholder="write your content ...."
+                    onChange={handleProcedureContentChange}
+                    style={{ height: "50vh" , width: "50vw" }} />
+                  <button className="relative right-0 hover:bg-blue-700 text-white font-bold rounded-full" style={{ backgroundColor: "#7c3aed", width: '15%', left: '80%' }} onClick={handlePost}>Submit</button>
+                </div>
+              </div>)}
+              {postParam === 2 && (
+                <Dialog.Close asChild>
+                  <button className="text-violet11 hover:bg-violet4 focus:shadow-violet7 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none z-20" aria-label="Close">
+                    Done
+                  </button>
+              </Dialog.Close>)}
+            </Dialog.Content>
+          </Dialog.Portal>
+        </Dialog.Root>
+        </div>)}
     </div>
   );
 };
@@ -276,7 +354,7 @@ export default Resources;
 const Videos = ({ searchTerm, categories, changeSearchTerm, filteredVideoTopics, filterVideoCategory, setFilterVideoCategory,  collapsed, setCollapsed, toggleCollapsed}: any) => (
   <div className="flex">
     <div className="flex parentF">
-      <aside className={`w-44 fixed left-0  h-screen bg-slate-300 p-10 z-10 text-black ${collapsed ? 'collapsed' : 'pol'} respDoc`} >
+      <aside className={`w-44 fixed left-0 options h-screen bg-slate-300 p-10 z-10 text-black ${collapsed ? 'collapsed' : 'pol'} respDoc`} >
         {categories.map((category: any) => (
           <div key={category}>
             <input style={{ accentColor: "#7c3aed" }} class="radioButton" type="radio" id={category.name} name={category.name} value={category.name} checked={filterVideoCategory.includes(category)} onChange={(e) => setFilterVideoCategory(e.target.value)} />

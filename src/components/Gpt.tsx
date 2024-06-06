@@ -229,8 +229,9 @@ export default function Gpt() {
   return (
     <div>
       {param === 0 &&(
-      <div className="max-w-3xl mx-auto my-8 p-8 bg-fffafa shadow-lg rounded-lg" >
-        <h1>Resume Generator</h1>
+      <div className="bg-slate-200">
+      <h1 className="" style={{ textAlign: "center" }}>Resume Generator</h1>
+      <div className="max-w-3xl mx-auto my-8 p-8 shadow-lg rounded-lg bg-white " >
       <form className="w-full max-w-lg" onSubmit={handleSubmit}>
         <div className="flex flex-wrap -mx-3 mb-6">
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -364,6 +365,7 @@ export default function Gpt() {
 
         <button type="submit">Generate Resume</button>
       </form>
+      </div>
       </div>
       )}
       {resume && param === 1 &&

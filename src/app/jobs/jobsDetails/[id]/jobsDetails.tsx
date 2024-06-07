@@ -2,14 +2,17 @@ import JobData, { Job } from '@/data'
 // import { authOptions } from '@/Auth'
 import { ApplyButton, JobCard } from '@/paths'
 import { getServerSession } from 'next-auth'
+import { authOptions } from "../../../api/auth/[...nextauth]/route";
 import Link from 'next/link'
 import React from 'react'
 
 const JobDetails = async ({ id }: any) => {
+
     const getJobDetail: any = JobData?.find((job) => job.id.toString() === id)
     console.log('sktill', getJobDetail.skills)
-    const session = await getServerSession()
+    const session: any = await getServerSession(authOptions)
     const relatedJobs = JobData?.slice(0, 4)
+    console.log('sessissss', session)
 
     return (
         <div className='mt-20 mb-12'>
@@ -17,7 +20,7 @@ const JobDetails = async ({ id }: any) => {
                 <div className='flex-[0.7]'>
                     {getJobDetail && <JobCard job={getJobDetail} />}
                 </div>
-                {session && <ApplyButton />}
+                {session && <ApplyButton reg={session?.registration} id={id}/>}
                 {!session && <Link href={'/signup'}>
                     <button type='button' className='px-8 py-3 bg-emerald-600 rounded-lg text-white'>Signup</button>
                 </Link>}

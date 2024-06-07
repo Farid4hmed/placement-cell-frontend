@@ -112,13 +112,13 @@ const Resources = () => {
     setDocTopics(data.data);
   }
 
-  const filteredVideoTopics = vidTopics.filter((vidTopic) => {
+  const filteredVideoTopics = vidTopics && vidTopics.filter((vidTopic) => {
     const matchesSearch = vidTopic.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = filterVideoCategory === 'All' || vidTopic.category === filterVideoCategory;
     return matchesSearch && matchesCategory;
   });
 
-  const filteredDocTopics = docTopics.filter((docTopic) => {
+  const filteredDocTopics = docTopics && docTopics.filter((docTopic) => {
     const matchesSearch = docTopic.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = filterDocCategory === 'All' || docTopic.category === filterDocCategory;
     return matchesSearch && matchesCategory;
@@ -251,7 +251,7 @@ const Resources = () => {
                   theme="snow"
                   modules={modules}
                   formats={formats}
-                  content={value}
+                  // content={value}
                   placeholder="write your content ...."
                   onChange={handleProcedureContentChange}
                   style={{ height: "50vh" , width: "50vw" }} />
@@ -279,8 +279,8 @@ const Videos = ({ searchTerm, categories, changeSearchTerm, filteredVideoTopics,
       <aside className={`w-44 fixed left-0  h-screen bg-slate-300 p-10 z-10 text-black ${collapsed ? 'collapsed' : 'pol'} respDoc`} >
         {categories.map((category: any) => (
           <div key={category}>
-            <input style={{ accentColor: "#7c3aed" }} class="radioButton" type="radio" id={category.name} name={category.name} value={category.name} checked={filterVideoCategory.includes(category)} onChange={(e) => setFilterVideoCategory(e.target.value)} />
-            <label class="opt" htmlFor={category.name}>
+            <input style={{ accentColor: "#7c3aed" }} className="radioButton" type="radio" id={category.name} name={category.name} value={category.name} checked={filterVideoCategory.includes(category)} onChange={(e) => setFilterVideoCategory(e.target.value)} />
+            <label className="opt" htmlFor={category.name}>
               <img src={category.image} alt="Label" />
               {category.name}
             </label>
@@ -304,7 +304,7 @@ const Videos = ({ searchTerm, categories, changeSearchTerm, filteredVideoTopics,
     <div className="mx-auto">
       <div className="flex justify-center z-10">
         <input
-          class="block searchBox p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 "
+          className="block searchBox p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 "
           type="text"
           placeholder="Search topics..."
           defaultValue={searchTerm}
@@ -312,7 +312,7 @@ const Videos = ({ searchTerm, categories, changeSearchTerm, filteredVideoTopics,
         />
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-8" style={{ width: '75vw', marginLeft: '10vw' }}>
-        {filteredVideoTopics.map((vidTopic: any) => (
+        {filteredVideoTopics && filteredVideoTopics.map((vidTopic: any) => (
           <Dialog.Root>
             <Dialog.Trigger asChild>
               <a href="#" className="relative block overflow-hidden rounded-lg border border-gray-100 p-4 sm:p-6 lg:p-8 transition-transform transform-gpu hover:scale-105 hover:shadow-lg">
@@ -377,8 +377,8 @@ const Documentation = ({ categories, filterDocCategory, searchTerm, setSearchTer
         <aside className={`w-44 fixed left-0 h-screen bg-slate-300 p-10 z-10 text-black ${collapsed ? 'collapsed' : 'pol'} respDoc`}>
           {categories.map((category: any) => (
             <div key={category}>
-              <input style={{ accentColor: "#7c3aed" }} class="radioButton" type="radio" id={category.name} name={category.name} value={category.name} checked={filterDocCategory.includes(category)} onChange={(e) => setFilterDocCategory(e.target.value)} />
-              <label class="opt" htmlFor={category.name}>
+              <input style={{ accentColor: "#7c3aed" }} className="radioButton" type="radio" id={category.name} name={category.name} value={category.name} checked={filterDocCategory.includes(category)} onChange={(e) => setFilterDocCategory(e.target.value)} />
+              <label className="opt" htmlFor={category.name}>
                 <img src={category.image} alt="Label" />
                 {category.name}
               </label>
@@ -403,7 +403,7 @@ const Documentation = ({ categories, filterDocCategory, searchTerm, setSearchTer
         <div className="mx-auto">
           <div className="flex justify-center z-10">
             <input
-              class="block searchBox p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+              className="block searchBox p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
               type="text"
               placeholder="Search topics..."
               defaultValue={searchTerm}

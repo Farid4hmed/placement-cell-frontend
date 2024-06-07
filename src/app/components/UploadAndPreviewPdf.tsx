@@ -1,12 +1,13 @@
+
 "use client"
 import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { Worker, Viewer } from '@react-pdf-viewer/core';
-import '@react-pdf-viewer/core/lib/styles/index.css';
-import '@react-pdf-viewer/default-layout/lib/styles/index.css';
-import { pdfjs } from 'react-pdf';
+// import '@react-pdf-viewer/core/lib/styles/index.css';
+// import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+// import { pdfjs } from 'react-pdf';
 
 // Set the worker path
-pdfjs.GlobalWorkerOptions.workerSrc = '/pdfjs/pdf.worker.min.mjs';
+// pdfjs.GlobalWorkerOptions.workerSrc = '/pdfjs/pdf.worker.min.mjs';
 
 export default function Home(props: { reg: string }) {
     const [file, setFile] = useState<File | null>(null);
@@ -35,68 +36,58 @@ export default function Home(props: { reg: string }) {
         formData.append('file', file);
         formData.append('reg', props.reg);
 
-        const res = await fetch(`/api/storeResume?reg=${props.reg}`, {
-            method: 'POST',
-            body: formData,
-        });
+        try {
+            const res = await fetch(`/api/storeResume?reg=${props.reg}`, {
+                method: 'POST',
+                body: formData,
+            });
 
-        if (res.status === 200) {
-            setMessage('Resume Uploaded Successfully!');
-        } else {
-            setMessage(`Something Went Wrong, Please try again later
-        `);
+            if (res.status === 200) {
+                setMessage('Resume Uploaded Successfully!');
+            } else {
+                setMessage('Something Went Wrong, Please try again later.');
+            }
+        } catch (error: any) {
+            setMessage(`Error: ${error.message}`);
         }
     };
 
     const handleGetResume = async () => {
-        const res = await fetch(`/api/getResume?reg=${props.reg}`);
-        const data = await res.json();
-        if (res.ok) {
-            setResumeUrl(data.url);
-            setPreviewUrl(data.url); // Set the resume URL to preview
-        } else {
-            setMessage(`Error: ${data.error}`);
+        try {
+            const res = await fetch(`/api/getResume?reg=${props.reg}`);
+            const data = await res.json();
+            if (res.ok) {
+                setResumeUrl(data.url);
+                setPreviewUrl(data.url); // Set the resume URL to preview
+            } else {
+                setMessage(`Error: ${data.error}`);
+            }
+        } catch (error: any) {
+            setMessage(`Error: ${error.message}`);
         }
     };
 
-
     useEffect(() => {
-        handleGetResume()
-    }, [])
-    console.log('asdf', previewUrl)
+        handleGetResume();
+
+        // Cleanup function to abort fetch requests
+        return () => {
+            // Example cleanup for fetch requests if any
+        };
+    }, []);
 
     return (
         <div className="flex w-full flex-col items-center justify-center min-h-screen py-2 bg-gray-100 mt-20">
-
-            {previewUrl && (
+            {!!previewUrl && (
                 <div className="mt-8 w-full max-w-4xl">
                     <h2 className="text-2xl font-semibold mb-4">Resume</h2>
                     <div className="border border-gray-300 rounded-md overflow-hidden" style={{ height: 'min-content' }}>
                         <Worker workerUrl='/pdfjs/pdf.worker.min.mjs'>
-                            <Viewer fileUrl={previewUrl} />
+                          {previewUrl &&  <Viewer fileUrl={previewUrl} />}
                         </Worker>
                     </div>
                 </div>
             )}
-            {/* <button
-        onClick={handleGetResume}
-        className="mt-8 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700"
-      >
-        Get Resume URL
-      </button> */}
-            {/* {resumeUrl && (
-                <div className="mt-4">
-                    <a
-                        href={resumeUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 underline"
-                    >
-                        {resumeUrl}
-                    </a>
-                </div>
-            )} */}
-
 
             <h1 className="text-xl mt-20 mb-5 underline">Upload a new Resume</h1>
 

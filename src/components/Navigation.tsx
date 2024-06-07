@@ -78,35 +78,36 @@ const Navigation = ({ children, ...props }: any) => {
                     <div className="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
                         <ul className="space-y-2 font-medium">
                             <li>
-                                <Link href={`/`} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                <Link href={`/`} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" onClick={() => window.location.href = '/'}>
                                     <Home strokeWidth={1.25} />
                                     <span className="ms-3">Home</span>
                                 </Link>
                             </li>
                             <li>
-                                <Link href={`/jobs/alljobs`} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                <Link href={`/jobs/alljobs`} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" onClick={() => window.location.href = '/jobs/alljobs'}>
                                     <Building2 strokeWidth={1.25} />
                                     <span className="ms-3">Visiting Companies</span>
                                 </Link>
                             </li>
                             <li>
-                                <Link href={`/resources`} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                <Link href={`/resources`} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" onClick={() => window.location.href = '/resources'}>
                                     <LibraryBig strokeWidth={1.25} />
                                     <span className="ms-3">Resources</span>
                                 </Link>
                             </li>
                             <li>
-                                <Link href={`/resume`} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                <Link href={`/resume`} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" onClick={() => window.location.href = '/resume'}>
                                     <ReceiptText strokeWidth={1.25} />
                                     <span className="ms-3">Resume Generator</span>
                                 </Link>
                             </li>
                             <li>
-                                <Link href={`https://cerulean-muffin-74f94a.netlify.app?email=${session.user.email}`} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                <Link href={`https://cerulean-muffin-74f94a.netlify.app?email=${session.user.email}`} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" onClick={() => window.location.href = `https://cerulean-muffin-74f94a.netlify.app?email=${session.user.email}`}>
                                     <LibraryBig strokeWidth={1.25} />
                                     <span className="ms-3">Your Files</span>
                                 </Link>
                             </li>
+
                         </ul>
                     </div>
                 </aside>

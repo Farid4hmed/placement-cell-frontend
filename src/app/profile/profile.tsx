@@ -1,5 +1,4 @@
 import React from 'react';
-
 interface StudentProfileProps {
   name: string;
   registrationNumber: string;
@@ -24,7 +23,7 @@ const StudentProfile: React.FC<StudentProfileProps> = ({
   profilePicture,
 }) => {
   return (
-    <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg mt-40">
+    <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg mt-10">
       <div className="flex flex-col md:flex-row items-start">
         <img
           src={profilePicture}
@@ -44,6 +43,7 @@ const StudentProfile: React.FC<StudentProfileProps> = ({
           </div>
         </div>
       </div>
+
     </div>
   );
 };

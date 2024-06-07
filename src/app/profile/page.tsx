@@ -3,6 +3,7 @@ import Resources from "@/components/resources";
 import { getServerSession } from "next-auth";
 import StudentProfile from "./profile";
 import { authOptions } from "../api/auth/[...nextauth]/route";
+import UploadAndPreviewPdf from "../components/UploadAndPreviewPdf";
 
 export default async function Main() {
     const session: any = await getServerSession(authOptions)
@@ -24,11 +25,10 @@ export default async function Main() {
 
     return (
         <Navigation session={session}>
-            <main className="">
+            <main className="flex flex-col items-center">
                 <StudentProfile  {...studentData} />
+                <UploadAndPreviewPdf reg={session?.registration}/>
             </main>
         </Navigation>
     );
-
-
 }

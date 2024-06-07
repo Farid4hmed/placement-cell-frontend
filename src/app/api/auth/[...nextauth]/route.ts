@@ -65,7 +65,6 @@ const authOptions: AuthOptions = {
         token.cgpa = user.cgpa;
         token.phone = user.phone;
       }
-      console.log("JWT Callback - Token:", token);
       return token;
     },
     async session({ session, token }: any) {
@@ -79,7 +78,6 @@ const authOptions: AuthOptions = {
         session.cgpa = token.cgpa;
         session.phone = token.phone;
       }
-      console.log("Session Callback - Session:", session);
       return session;
     },
   },

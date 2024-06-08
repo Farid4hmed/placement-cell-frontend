@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useContext } from "react";
-import { Building2, LibraryBig, ReceiptText, Home } from 'lucide-react';
+import { Building2, LibraryBig, ReceiptText, Folder, Home } from 'lucide-react';
 import { initFlowbite } from 'flowbite';
 import Logout from "./logout";
 import { useRouter } from 'next/navigation';
@@ -103,7 +103,7 @@ const Navigation = ({ children, ...props }: any) => {
                             </li>
                             <li>
                                 <Link href={`https://cerulean-muffin-74f94a.netlify.app?email=${session.user.email}`} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" onClick={() => window.location.href = `https://cerulean-muffin-74f94a.netlify.app?email=${session.user.email}`}>
-                                    <LibraryBig strokeWidth={1.25} />
+                                    <Folder strokeWidth={1.25} />
                                     <span className="ms-3">Your Files</span>
                                 </Link>
                             </li>

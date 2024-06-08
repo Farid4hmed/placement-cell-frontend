@@ -22,7 +22,7 @@ const ReactQuill = dynamic(() => import('react-quill'), {
   loading: () => <p>Loading...</p>,
 });
 
-const Resources = () => {
+const Resources = (props: any) => {
   const [currFileData, setCurrFileData] = useState();
   const [saving, setSaving] = useState(false);
   const [postValue, setPostValue] = useState('P');
@@ -31,7 +31,7 @@ const Resources = () => {
   const [filterVideoCategory, setFilterVideoCategory] = useState('All'); // Default to 'All'
   const [filterDocCategory, setFilterDocCategory] = useState('All');
   const [clicked, setClicked] = useState(false);
-  const [vidTopics, setVidTopics] = useState<any[]>([]); 
+  const [vidTopics, setVidTopics] = useState<any[]>([]);
 
   var modules = {
     toolbar: [
@@ -56,7 +56,7 @@ const Resources = () => {
     "list", "color", "bullet", "indent",
     "link", "image", "align", "size",
   ];
-  
+
   const [docTopics, setDocTopics] = useState<any[]>([]);
   // Filter topics based on search term and category
 
@@ -68,7 +68,7 @@ const Resources = () => {
   }
 
   const [vidCollapsed, setVidCollapsed] = useState(false);
-  const [docCollapsed, setDocCollapsed] = useState(false); 
+  const [docCollapsed, setDocCollapsed] = useState(false);
 
   const toggleVidCollapse = () => {
     setVidCollapsed(!vidCollapsed);
@@ -101,7 +101,7 @@ const Resources = () => {
     console.log('data', data)
     setVidTopics(data.data);
   }
-  
+
   async function docFetch() {
     const response = await fetch('/api/getDocuments');
     const data = await response.json()
@@ -138,7 +138,7 @@ const Resources = () => {
     },
     {
       image: "/images/Javascript.png",
-      name: 'Javascript', 
+      name: 'Javascript',
     },
     {
       image: "/images/React.png",
@@ -166,11 +166,11 @@ const Resources = () => {
     },
     {
       image: "/images/ASP.png",
-      name: 'ASP.NET', 
+      name: 'ASP.NET',
     },
     {
       image: "/images/laravel.png",
-      name: 'Laravel', 
+      name: 'Laravel',
     },
     {
       image: "/images/PHP.png",
@@ -183,10 +183,10 @@ const Resources = () => {
     {
       image: "/images/Rails.png",
       name: 'Ruby on Rails',
-    } 
+    }
   ];
 
-  const [postParam, setPostParam] = useState(0); 
+  const [postParam, setPostParam] = useState(0);
   const [formData, setFormData] = useState({
     topic: '',
     pretext: '',
@@ -198,9 +198,9 @@ const Resources = () => {
     //console.log("content---->", content);
     setPostValue(content);
     const name = 'text';
-    setFormData({...formData, [name]: postValue});
+    setFormData({ ...formData, [name]: postValue });
   };
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -214,7 +214,7 @@ const Resources = () => {
     setPostParam(0);
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     setPostParam(1);
     console.log(formData);
@@ -254,7 +254,7 @@ const Resources = () => {
             </h3>
           </li>
           <li className="me-2">
-            <h3 className={` ${clicked ? 'inline-flex items-center justify-center p-4 border-b-2 tabButton rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group' : 'inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group'}`}  onClick={() => handleTabClick(2)}>
+            <h3 className={` ${clicked ? 'inline-flex items-center justify-center p-4 border-b-2 tabButton rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group' : 'inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group'}`} onClick={() => handleTabClick(2)}>
               Documentation
             </h3>
           </li>
@@ -268,9 +268,9 @@ const Resources = () => {
           searchTerm={searchTerm}
           changeSearchTerm={changeSearchTerm}
           filteredVideoTopics={filteredVideoTopics}
-          collapsed = {vidCollapsed}
-          setCollapsed = {setVidCollapsed}
-          toggleCollapsed = {toggleVidCollapse}
+          collapsed={vidCollapsed}
+          setCollapsed={setVidCollapsed}
+          toggleCollapsed={toggleVidCollapse}
         />)}
       {activeTab === 2 &&
         (<div>
@@ -281,63 +281,65 @@ const Resources = () => {
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
             filteredDocTopics={filteredDocTopics}
-            collapsed = {docCollapsed}
-            setCollapsed = {setDocCollapsed}
-            toggleCollapsed = {toggleDocCollapse}
+            collapsed={docCollapsed}
+            setCollapsed={setDocCollapsed}
+            toggleCollapsed={toggleDocCollapse}
           />
-        <Dialog.Root>
-          <Dialog.Trigger asChild>
-            <div className="fixed bottom-10 right-20 z-100">
-              <button style={{ backgroundColor: "#7c3aed" }} className=" hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full hover:shadow-lg" onClick={resetPost}>Post</button>
-            </div>
-          </Dialog.Trigger>
-          <Dialog.Portal>
-            <Dialog.Content>
-              {postParam === 0 && (
-                <div className="bg-white p-8 rounded-lg shadow-md w-80" style={{ position: 'fixed', top: '20vh', left: '40vw', backgroundColor: '#F5F5F5' }}>
-                  <h1 className="text text-xl font-bold mb-4">New Post</h1>
-                  <form onSubmit={handleSubmit}>
-                    <div className="mb-2">
-                      <label>Topic</label><br />
-                      <input type="text" placeholder="Topic" name="topic" value={formData.topic} onChange={handleChange} className="bg-white p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-                    </div>
-                    <div class="mb-2">
-                      <label>A line about the Topic</label><br />
-                      <input type="textarea" placeholder="Description" style={{ height: "100px" }} name="pretext" value={formData.pretext} onChange={handleChange} className="bg-white p-2 rounded w-full h-20 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-                    </div>
-                    <div className="mb-2">
-                      <label>Category</label><br />
-                      <input type="text" placeholder="Java" name="category" value={formData.category} onChange={handleChange} className="bg-white p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-                    </div>
-                    <button type="submit" className="bg-indigo-500 text-white p-2 rounded w-full hover:bg-indigo-600">Next →</button>
-                  </form>
-                </div>)}
-              {postParam === 1 && (
-              <div className="" style={{ position: 'absolute', top: '25vh', left: '25vw', backgroundColor: '#F5F5F5' }}>
-                <h1 style={{ textAlign: "center" }}>Text Editor In React JS</h1>
-                <div style={{ display: "grid", justifyContent: "center" }}>
-                  <ReactQuill
-                    theme="snow"
-                    modules={modules}
-                    formats={formats}
-                    content={postValue}
-                    placeholder="write your content ...."
-                    onChange={handleProcedureContentChange}
-                    style={{ height: "50vh" , width: "50vw" }} />
-                  <button className="relative right-0 hover:bg-blue-700 text-white font-bold rounded-full" style={{ backgroundColor: "#7c3aed", width: '15%', left: '80%' }} onClick={handlePost}>Submit</button>
+          <Dialog.Root>
+            <Dialog.Trigger asChild>
+              {props.isAdmin && (
+                <div className="fixed bottom-10 right-20 z-100">
+                  <button style={{ backgroundColor: "#7c3aed" }} className=" hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full hover:shadow-lg" onClick={resetPost}>Post</button>
                 </div>
-              </div>)}
-              {postParam === 2 && (
-                <Dialog.Close asChild>
-                  <button className="text-violet11 hover:bg-violet4 focus:shadow-violet7 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none z-20" aria-label="Close">
-                    Done
-                  </button>
-              </Dialog.Close>)}
-            </Dialog.Content>
-          </Dialog.Portal>
-        </Dialog.Root>
+              )}
+            </Dialog.Trigger>
+            <Dialog.Portal>
+              <Dialog.Content>
+                {postParam === 0 && (
+                  <div className="bg-white p-8 rounded-lg shadow-md w-80" style={{ position: 'fixed', top: '20vh', left: '40vw', backgroundColor: '#F5F5F5' }}>
+                    <h1 className="text text-xl font-bold mb-4">New Post</h1>
+                    <form onSubmit={handleSubmit}>
+                      <div className="mb-2">
+                        <label>Topic</label><br />
+                        <input type="text" placeholder="Topic" name="topic" value={formData.topic} onChange={handleChange} className="bg-white p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                      </div>
+                      <div className="mb-2">
+                        <label>A line about the Topic</label><br />
+                        <input type="textarea" placeholder="Description" style={{ height: "100px" }} name="pretext" value={formData.pretext} onChange={handleChange} className="bg-white p-2 rounded w-full h-20 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                      </div>
+                      <div className="mb-2">
+                        <label>Category</label><br />
+                        <input type="text" placeholder="Java" name="category" value={formData.category} onChange={handleChange} className="bg-white p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                      </div>
+                      <button type="submit" className="bg-indigo-500 text-white p-2 rounded w-full hover:bg-indigo-600">Next →</button>
+                    </form>
+                  </div>)}
+                {postParam === 1 && (
+                  <div className="" style={{ position: 'absolute', top: '25vh', left: '25vw', backgroundColor: '#F5F5F5' }}>
+                    <h1 style={{ textAlign: "center" }}>Text Editor In React JS</h1>
+                    <div style={{ display: "grid", justifyContent: "center" }}>
+                      <ReactQuill
+                        theme="snow"
+                        modules={modules}
+                        formats={formats}
+                        content={postValue}
+                        placeholder="write your content ...."
+                        onChange={handleProcedureContentChange}
+                        style={{ height: "50vh", width: "50vw" }} />
+                      <button className="relative right-0 hover:bg-blue-700 text-white font-bold rounded-full" style={{ backgroundColor: "#7c3aed", width: '15%', left: '80%' }} onClick={handlePost}>Submit</button>
+                    </div>
+                  </div>)}
+                {postParam === 2 && (
+                  <Dialog.Close asChild>
+                    <button className="text-violet11 hover:bg-violet4 focus:shadow-violet7 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none z-20" aria-label="Close">
+                      Done
+                    </button>
+                  </Dialog.Close>)}
+              </Dialog.Content>
+            </Dialog.Portal>
+          </Dialog.Root>
         </div>)}
-      
+
     </div>
   );
 };
@@ -345,7 +347,7 @@ const Resources = () => {
 export default Resources;
 
 
-const Videos = ({ searchTerm, categories, changeSearchTerm, filteredVideoTopics, filterVideoCategory, setFilterVideoCategory,  collapsed, setCollapsed, toggleCollapsed}: any) => (
+const Videos = ({ searchTerm, categories, changeSearchTerm, filteredVideoTopics, filterVideoCategory, setFilterVideoCategory, collapsed, setCollapsed, toggleCollapsed }: any) => (
   <div className="flex">
     <div className="flex parentF">
       <aside className={`w-44 fixed left-0  h-screen bg-slate-100 p-10 z-10 text-black ${collapsed ? 'collapsed' : 'pol'} respDoc`} >
@@ -361,14 +363,14 @@ const Videos = ({ searchTerm, categories, changeSearchTerm, filteredVideoTopics,
       </aside>
       <div className={`block fixed ${collapsed ? 'posarrow2' : 'posarrow'} top-1/2 z-20`}>
         <button className="z-10 block" onClick={toggleCollapsed}>
-          {collapsed ? 
+          {collapsed ?
             <div className="">
               <i className="arrow right"></i>
-            </div>  
-            : 
+            </div>
+            :
             <div className="">
               <i className="arrow left"></i>
-            </div> 
+            </div>
           }
         </button>
       </div>
@@ -522,14 +524,14 @@ const Doc = ({ name, text, category, param, setParam }: any) => {
       <button className="backbutton" onClick={backClick}><svg className="back" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11H6.83l3.58-3.59L9 6l-6 6l6 6l1.41-1.41L6.83 13H21z"></path></svg></button>
       <br />
 
-       <div className="container mx-auto p-6">
-       
+      <div className="container mx-auto p-6">
+
         <header className="mb-8">
-            <h1 className="text-3xl font-bold text-center text-gray-800">{name}</h1>
-            <p className="text-center text-gray-600 mt-2">{category}</p>
+          <h1 className="text-3xl font-bold text-center text-gray-800">{name}</h1>
+          <p className="text-center text-gray-600 mt-2">{category}</p>
         </header>
 
-        
+
         <div className="flex">
           <div dangerouslySetInnerHTML={{ __html: text }} />
         </div>

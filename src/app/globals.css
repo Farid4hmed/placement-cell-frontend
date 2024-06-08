@@ -50,3 +50,16 @@
     --ring: 263.4 70% 50.4%;
   }
 } 
+
+.genButton{
+  background-color: #7C3AED;
+  color: white;
+  padding: 5px 20px;
+  margin-left: 15vw;
+  border-radius: 20px;
+}
+
+.genButton:hover{
+  color: #7C3AED;
+  background-color: white;
+}

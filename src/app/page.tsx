@@ -36,11 +36,11 @@ export default async function Home() {
     <Navigation session={session}>
       <main className="">
         <div className="relative bg-white shadow-md rounded-lg p-4 w-full">
-          <div className="relative overflow-hidden">
+          <div className="relative">
             <img
               src="/images/placement_cell.jpg"
               alt=""
-              className="w-full h-screen object-cover object-center"
+              className="w-full h-[70vh] object-cover object-center"
             />
 
             <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center text-center p-6" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}> {/* Semi-transparent overlay */}

@@ -389,7 +389,7 @@ const Videos = ({ searchTerm, categories, changeSearchTerm, filteredVideoTopics,
         {filteredVideoTopics && filteredVideoTopics.map((vidTopic: any) => (
           <Dialog.Root>
             <Dialog.Trigger asChild>
-              <a href="#" className="relative block overflow-hidden rounded-lg border border-gray-100 p-4 sm:p-6 lg:p-8 transition-transform transform-gpu hover:scale-105 hover:shadow-lg">
+              <a href="#" className="relative block rounded-lg border border-gray-100 p-4 sm:p-6 lg:p-8 transition-transform transform-gpu hover:scale-105 hover:shadow-lg">
                 <div className="sm:flex sm:justify-between sm:gap-4">
                   <div>
                     <h3 className="text-lg font-bold text-gray-900 sm:text-xl">
@@ -488,7 +488,7 @@ const Documentation = ({ categories, filterDocCategory, searchTerm, setSearchTer
             {filteredDocTopics.map((docTopic: any) => (
               <a
                 href="#"
-                className="relative block overflow-hidden rounded-lg border border-gray-100 p-4 sm:p-6 lg:p-8 transition-transform transform-gpu hover:scale-105 hover:shadow-lg doclists"
+                className="relative block rounded-lg border border-gray-100 p-4 sm:p-6 lg:p-8 transition-transform transform-gpu hover:scale-105 hover:shadow-lg doclists"
                 onClick={() => handleClick(docTopic.name, docTopic.text, docTopic.category)}
               >
                 <div className="flex sm:justify-between sm:gap-4">

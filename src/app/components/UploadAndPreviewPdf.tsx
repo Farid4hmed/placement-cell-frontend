@@ -81,7 +81,7 @@ export default function Home(props: { reg: string }) {
             {!!previewUrl && (
                 <div className="mt-8 w-full max-w-4xl">
                     <h2 className="text-2xl font-semibold mb-4">Resume</h2>
-                    <div className="border border-gray-300 rounded-md overflow-hidden" style={{ height: 'min-content' }}>
+                    <div className="border border-gray-300 rounded-md" style={{ height: 'min-content' }}>
                         <Worker workerUrl='/pdfjs/pdf.worker.min.mjs'>
                           {previewUrl &&  <Viewer fileUrl={previewUrl} />}
                         </Worker>

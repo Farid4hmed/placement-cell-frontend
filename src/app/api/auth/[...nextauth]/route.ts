@@ -18,38 +18,45 @@ const authOptions: AuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        const response = await sql`
-          SELECT * FROM students WHERE email = ${credentials?.email}
-        `;
-        const user = response.rows[0];
+        try {
+          console.log("Connecting to database...");
+          const response = await sql`
+            SELECT * FROM students WHERE email = ${credentials?.email}
+          `;
+          const user = response.rows[0];
 
-        if (!user) {
+          if (!user) {
+            console.log("User not found");
+            return null;
+          }
+          console.log("User found:", user);
+
+          const passwordCorrect = await compare(
+            credentials?.password || "",
+            user.password
+          );
+
+          console.log({ passwordCorrect: passwordCorrect });
+
+          if (passwordCorrect) {
+            const registration_number = user.email.split('.')[0]
+            console.log('reg', registration_number)
+            const response = await sql`
+            SELECT * FROM collegeStudentDetails WHERE registration_number = ${registration_number}
+          `;
+            const userData = response.rows[0]
+
+            console.log({ user: user });
+            let isAdmin = false;
+            if (user.email === '2041001037.faridahmed@gmail.com') isAdmin = true;
+            return { id: user.id, email: user.email, isAdmin: isAdmin, name: userData.name, registration: userData.registration_number, branch: userData.branch, batch: userData.batch, section: userData.section, cgpa: userData.cgpa, phone: userData.phone };
+          }
+
+          return null;
+        } catch (error) {
+          console.error("Error connecting to database:", error);
           return null;
         }
-        console.log(user);
-
-        const passwordCorrect = await compare(
-          credentials?.password || "",
-          user.password
-        );
-
-        console.log({ passwordCorrect: passwordCorrect });
-
-        if (passwordCorrect) {
-          const registration_number = user.email.split('.')[0]
-          console.log('reg', registration_number)
-          const response = await sql`
-          SELECT * FROM collegeStudentDetails WHERE registration_number = ${registration_number}
-        `;
-          const userData = response.rows[0]
-
-          console.log({ user: user });
-          let isAdmin = false;
-          if (user.email === '2041001037.faridahmed@gmail.com') isAdmin = true;
-          return { id: user.id, email: user.email, isAdmin: isAdmin, name: userData.name, registration: userData.registration_number, branch: userData.branch, batch: userData.batch, section: userData.section, cgpa: userData.cgpa, phone: userData.phone };
-        }
-
-        return null;
       },
     }),
   ],

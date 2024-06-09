@@ -24,7 +24,7 @@ const Navigation = ({ children, ...props }: any) => {
 
     useEffect(() => {
         console.log('Checking scrolling issue');
-        document.body.style.overflowY = 'auto';
+        // document.body.style.overflowY = 'auto';
     }, []);
 
     if (!!session)
@@ -112,7 +112,7 @@ const Navigation = ({ children, ...props }: any) => {
                     </div>
                 </aside>
 
-                <div className="p-4 mt-20 overflow-auto"> {/* Adjusted here */}
+                <div className="p-4 mt-20"> {/* Adjusted here */}
                     <div className="p-4 rounded-lg dark:border-gray-700">
                         {children}
                     </div>

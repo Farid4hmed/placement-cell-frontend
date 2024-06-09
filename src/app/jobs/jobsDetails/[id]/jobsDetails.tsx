@@ -46,7 +46,7 @@ const JobDetails = async ({ id }: any) => {
         //         <div className='mt-10'>
         //             <h1 className='text-xl font-semibold'>Related Jobs</h1>
         //             {relatedJobs?.map((job) => <Link key={job.id} href={`/jobs/jobsDetails/${job.id}`} className='space-y-6 mb-4 mt-4'>
-        //                 <JobCard job={job} />
+                        // <JobCard job={job} />
         //             </Link>
 
         //             )}
@@ -111,74 +111,6 @@ const JobDetails = async ({ id }: any) => {
                 </div>
 
 
-                <div className="space-y-10">
-                    <h4 className="text-lg mt-40 font-semibold">Related Jobs</h4>
-                    <div className="space-y-20">
-                        <div className="flex p-4 bg-white border border-gray-200 rounded-lg shadow-md">
-                            <div className="flex-shrink-0">
-                                <img src="./images/company-icon-04.svg" className="w-14 h-14" alt="Company 04" />
-                            </div>
-                            <div className="flex flex-col ml-4">
-                                <div className="flex flex-col">
-                                    <div className="font-semibold">GitHub</div>
-                                    <a className="text-xl font-semibold text-blue-600 hover:underline" href="job-post.html">Remote Shopify Website Tester</a>
-                                    <div className="flex space-x-2">
-                                        <span>$100K - $170K</span>
-                                        <span>🇺🇸 NYC</span>
-                                    </div>
-                                </div>
-                                <div className="flex items-center justify-between mt-2">
-                                    <a className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700" href="job-post.html">
-                                        Apply Now <span className="ml-2">&rarr;</span>
-                                    </a>
-                                    <span className="text-sm text-gray-600">4h</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex p-4 bg-white border border-gray-200 rounded-lg shadow-md">
-                            <div className="flex-shrink-0">
-                                <img src="./images/company-icon-04.svg" className="w-14 h-14" alt="Company 04" />
-                            </div>
-                            <div className="flex flex-col ml-4">
-                                <div className="flex flex-col">
-                                    <div className="font-semibold">GitHub</div>
-                                    <a className="text-xl font-semibold text-blue-600 hover:underline" href="job-post.html">Remote Senior Software Engineer</a>
-                                    <div className="flex space-x-2">
-                                        <span>$100K - $170K</span>
-                                        <span>🇺🇸 NYC</span>
-                                    </div>
-                                </div>
-                                <div className="flex items-center justify-between mt-2">
-                                    <a className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700" href="job-post.html">
-                                        Apply Now <span className="ml-2">&rarr;</span>
-                                    </a>
-                                    <span className="text-sm text-gray-600">7h</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex p-4 bg-white border border-gray-200 rounded-lg shadow-md">
-                            <div className="flex-shrink-0">
-                                <img src="./images/company-icon-11.svg" className="w-14 h-14" alt="Company 11" />
-                            </div>
-                            <div className="flex flex-col ml-4">
-                                <div className="flex flex-col">
-                                    <div className="font-semibold">Facebook</div>
-                                    <a className="text-xl font-semibold text-blue-600 hover:underline" href="job-post.html">Remote Cyber Security Analyst US</a>
-                                    <div className="flex space-x-2">
-                                        <span>$55K - $100K</span>
-                                        <span>🇺🇸 United States</span>
-                                    </div>
-                                </div>
-                                <div className="flex items-center justify-between mt-2">
-                                    <a className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700" href="job-post.html">
-                                        Apply Now <span className="ml-2">&rarr;</span>
-                                    </a>
-                                    <span className="text-sm text-gray-600">2d</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
 

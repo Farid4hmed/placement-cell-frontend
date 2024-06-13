@@ -24,10 +24,12 @@ const Jobs = ({ session }: any) => {
 
 
   return (
-    <div className='w-[80vw] mx-auto mb-12 flex flex-col'>
+    <div className='w-[80vw] mx-auto mb-12 flex flex-col items-center'>
       {session.user.isAdmin &&
-        <div className='flex justify-center w-full mb-10'>
+        <div className='flex justify-evenly w-1/2 mb-10'>
+          <button className='bg-blue-500 hover:bg-blue-700 text-white w-1/5 font-bold py-2 px-4 rounded' onClick={() => window.location.href = '/addCompany'}>Add a Company</button>
           <button className='bg-blue-500 hover:bg-blue-700 text-white w-1/5 font-bold py-2 px-4 rounded' onClick={() => window.location.href = '/applications'}>View Applications</button>
+          <button className='bg-blue-500 hover:bg-blue-700 text-white w-1/5 font-bold py-2 px-4 rounded' onClick={() => window.location.href = '/addJob'}>Add a Job</button>
         </div>
       }
       <div className="space-y-10 flex justify-center w-full">

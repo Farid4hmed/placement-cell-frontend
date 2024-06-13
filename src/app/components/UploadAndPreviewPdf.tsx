@@ -2,12 +2,12 @@
 "use client"
 import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { Worker, Viewer } from '@react-pdf-viewer/core';
-// import '@react-pdf-viewer/core/lib/styles/index.css';
-// import '@react-pdf-viewer/default-layout/lib/styles/index.css';
-// import { pdfjs } from 'react-pdf';
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+import { pdfjs } from 'react-pdf';
 
 // Set the worker path
-// pdfjs.GlobalWorkerOptions.workerSrc = '/pdfjs/pdf.worker.min.mjs';
+pdfjs.GlobalWorkerOptions.workerSrc = '/pdfjs/pdf.worker.min.mjs';
 
 export default function Home(props: { reg: string }) {
     const [file, setFile] = useState<File | null>(null);
@@ -81,7 +81,7 @@ export default function Home(props: { reg: string }) {
             {!!previewUrl && (
                 <div className="mt-8 w-full max-w-4xl">
                     <h2 className="text-2xl font-semibold mb-4">Resume</h2>
-                    <div className="border border-gray-300 rounded-md" style={{ height: 'min-content' }}>
+                    <div className="border border-gray-300 rounded-md">
                         <Worker workerUrl='/pdfjs/pdf.worker.min.mjs'>
                           {previewUrl &&  <Viewer fileUrl={previewUrl} />}
                         </Worker>

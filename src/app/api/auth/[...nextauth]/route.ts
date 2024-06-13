@@ -39,8 +39,7 @@ const authOptions: AuthOptions = {
           console.log({ passwordCorrect: passwordCorrect });
 
           if (passwordCorrect) {
-            const registration_number = user.email.split('.')[0]
-            console.log('reg', registration_number)
+            const registration_number = credentials?.email === 'admin@soa.ac.in' ? 0 : user.email.split('.')[0]
             const response = await sql`
             SELECT * FROM collegeStudentDetails WHERE registration_number = ${registration_number}
           `;
@@ -48,7 +47,7 @@ const authOptions: AuthOptions = {
 
             console.log({ user: user });
             let isAdmin = false;
-            if (user.email === '2041001037.faridahmed@gmail.com') isAdmin = true;
+            if (user.email === 'admin@soa.ac.in') isAdmin = true;
             return { id: user.id, email: user.email, isAdmin: isAdmin, name: userData.name, registration: userData.registration_number, branch: userData.branch, batch: userData.batch, section: userData.section, cgpa: userData.cgpa, phone: userData.phone };
           }
 

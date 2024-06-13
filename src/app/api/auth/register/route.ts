@@ -6,19 +6,21 @@ export async function POST(request: Request) {
   try {
     const { email, password } = await request.json();
 
-    if (!validateEmail(email)) {
-      return new Response(JSON.stringify({ error: "Invalid email." }), {
-        status: 400,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    }
+    // if (!validateEmail(email)) {
+    //   return new Response(JSON.stringify({ error: "Invalid email." }), {
+    //     status: 400,
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   });
+    // }
 
     const registrationNo = email.split(".")[0]
 
 
     const hashedPassword = await hash(password, 10);
+
+    console.log('hashedPassword', hashedPassword)
 
     const checkUser = await sql`
         SELECT * FROM students WHERE email = ${email}
@@ -38,7 +40,7 @@ export async function POST(request: Request) {
         VALUES (${email}, ${hashedPassword}, ${registrationNo});
         `;
 
-        console.log(response)
+        console.log('after pushing new users data', response)
   } catch (error) {
     console.log(error);
   }

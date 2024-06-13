@@ -245,10 +245,12 @@ const JobDetails = ({ id, session }: any) => {
                         </ul>
                     </div>
                     <div className="flex flex-col items-center space-y-2">
+                        {!session.user.isAdmin &&
                         <div className={`px-4 py-2 cursor-pointer text-white ${isApplied ? 'bg-green-400' : 'bg-blue-500 hover:bg-blue-700'} rounded-md`} onClick={applyHandler}>
                             {isApplied ? 'Applied' : 'Apply Now'}
                             <span className="ml-2">&rarr;</span>
                         </div>
+}
                         <a className="text-blue-600 hover:underline" href={getJobDetail?.website}>Visit Website</a>
                     </div>
                 </div>

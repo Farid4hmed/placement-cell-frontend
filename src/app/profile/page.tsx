@@ -27,7 +27,7 @@ export default async function Main() {
         <Navigation session={session}>
             <main className="flex flex-col items-center">
                 <StudentProfile  {...studentData} />
-                <UploadAndPreviewPdf reg={session?.registration}/>
+                {!session.user.isAdmin && <UploadAndPreviewPdf reg={session?.registration} />}
             </main>
         </Navigation>
     );

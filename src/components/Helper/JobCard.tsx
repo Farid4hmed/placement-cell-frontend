@@ -1,15 +1,76 @@
-// import { Job } from '@/data'
-import Image from 'next/image'
-import React from 'react'
-// import { BiMoney } from 'react-icons/bi'
-// import { FaMapLocation, FaRegBookmark, } from 'react-icons/fa6'
-import { Bookmark, MapPin, IndianRupee } from 'lucide-react'
-import { Fascinate_Inline } from 'next/font/google'
+import React, { useEffect, useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-// interface Props {
-//   job: Job
-// }
-export const JobCard = ({ job }: any) => {
+
+export const JobCard = ({ job, session }: any) => {
+  // const [isApplied, setIsApplied] = useState(false)
+  // const [applications, setApplications] = useState([])
+  // const handleGetResume = async () => {
+  //   const res = await fetch(`/api/getResume?reg=${session?.registration}`);
+  //   const data = await res.json();
+  //   if (res.ok) {
+  //     console.log('resumeLink', data.url)
+  //     return data.url
+  //   } else {
+  //     console.log('something went wrong')
+  //   }
+  // };
+
+  // async function uploadApplication(resumeLink: any) {
+  //   try {
+  //     const response = await fetch('/api/postApplication', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ jobId: parseInt(job.id), resume: resumeLink, reg: parseInt(session.registration) }),
+  //     });
+
+  //     if (response.status === 200) {
+  //       console.log('Application uploaded succesfully')
+  //     }
+
+
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+
+  // const applyHandler = async () => {
+  //   if(isApplied)return
+  //   const resumeLink = await handleGetResume()
+  //   await uploadApplication(resumeLink)
+
+  //   if (!isApplied) {
+  //     toast.success("Submitted Successfully")
+  //     setIsApplied(true)
+  //   }
+
+  // }
+
+  // async function getApplicationDetails() {
+  //   try {
+  //     const res = await fetch('/api/getApplicationDetails')
+  //     const data = await res.json()
+  //     setApplications(data.data)
+  //   } catch (error: any) {
+  //     console.error(error)
+  //   }
+  // }
+
+  // async function checkIfApplied() {
+  //   const applied = applications.find((application: any) => application.jobid === job.id && application.registration === session?.registration)
+  //   if (applied) {
+  //     setIsApplied(true)
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   getApplicationDetails()
+  //   checkIfApplied()
+  // }, [])
+
   return (
 
     <div className="flex flex-col p-4 items-center justify-center">
@@ -27,15 +88,17 @@ export const JobCard = ({ job }: any) => {
             </div>
           </div>
           <div className="flex flex-col items-center justify-between">
-            <a className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700" href="job-post.html">
-              Apply Now <span className="ml-2">&rarr;</span>
-            </a>
+            <div className={`px-4 py-2 text-white bg-blue-500 hover:bg-blue-700 rounded-md`}>
+              View Details
+
+              <span className="ml-2">&rarr;</span>
+            </div>
           </div>
         </div>
       </div>
 
 
-  
+
     </div>
 
   )

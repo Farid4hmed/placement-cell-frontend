@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     }
 
     const response = await sql`
-      INSERT INTO applications (registration, jobId, resume)
+      INSERT INTO application (registration, jobId, resume)
       VALUES (${reg}, ${jobId}, ${resume});
     `;
 

@@ -7,16 +7,19 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from "../../../api/auth/[...nextauth]/route";
 import Link from 'next/link'
 import React from 'react'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const JobDetails = ({ id }: any) => {
+
+const JobDetails = ({ id, session }: any) => {
 
     const [JobData, setJobData] = useState([])
 
     async function getJobData() {
         try {
+            await getApplicationDetails()
             const res = await fetch('/api/getJobData')
             const data = await res.json()
-            console.log('data', data)
             setJobData(data.rows)
         } catch (error: any) {
             console.error(error)
@@ -29,7 +32,83 @@ const JobDetails = ({ id }: any) => {
 
     const getJobDetail: any = JobData?.find((job: any) => job.id.toString() === id)
 
-    console.log('getJobDetail', getJobDetail)
+
+
+    const [isApplied, setIsApplied] = useState(false)
+    const [applications, setApplications] = useState([])
+
+
+    const handleGetResume = async () => {
+        const res = await fetch(`/api/getResume?reg=${session?.registration}`);
+        const data = await res.json();
+        if (res.ok) {
+            console.log('resumeLink', data.url)
+            return data.url
+        } else {
+            console.log('something went wrong')
+        }
+    };
+
+    async function uploadApplication(resumeLink: any) {
+        console.log(session.registration, getJobDetail.id, resumeLink)
+        try {
+            const response = await fetch('/api/postApplication', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ jobId: parseInt(getJobDetail.id), resume: resumeLink, reg: parseInt(session.registration) }),
+            });
+
+            if (response.status === 200) {
+                console.log('Application uploaded succesfully')
+            }
+
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const applyHandler = async () => {
+        if (isApplied) return
+        const resumeLink = await handleGetResume()
+        await uploadApplication(resumeLink)
+
+        if (!isApplied) {
+            toast.success("Submitted Successfully")
+            setIsApplied(true)
+        }
+
+    }
+
+    async function getApplicationDetails() {
+        try {
+            const res = await fetch('/api/getApplicationDetails')
+            const data = await res.json()
+            console.log(data.data)
+            setApplications(data.data)
+
+            const isApplied = registrationJobidMatch(data.data, session?.registration, id)
+            console.log('isApplied', isApplied)
+
+            if (isApplied) {
+                setIsApplied(true)
+            }
+        } catch (error: any) {
+            console.error(error)
+        }
+    }
+
+    function registrationJobidMatch(data: any, registration: any, jobid: any) {
+        for (let record of data) {
+            console.log(record)
+          if (record.registration == registration && record.jobid == jobid) {
+            return true;
+          }
+        }
+        return false;
+      }
 
 
     return (
@@ -64,7 +143,7 @@ const JobDetails = ({ id }: any) => {
         //         <div className='mt-10'>
         //             <h1 className='text-xl font-semibold'>Related Jobs</h1>
         //             {relatedJobs?.map((job) => <Link key={job.id} href={`/jobs/jobsDetails/${job.id}`} className='space-y-6 mb-4 mt-4'>
-                        // <JobCard job={job} />
+        // <JobCard job={job} />
         //             </Link>
 
         //             )}
@@ -166,9 +245,10 @@ const JobDetails = ({ id }: any) => {
                         </ul>
                     </div>
                     <div className="flex flex-col items-center space-y-2">
-                        <a className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700" href="#0">
-                            Apply Now <span className="ml-2">&rarr;</span>
-                        </a>
+                        <div className={`px-4 py-2 cursor-pointer text-white ${isApplied ? 'bg-green-400' : 'bg-blue-500 hover:bg-blue-700'} rounded-md`} onClick={applyHandler}>
+                            {isApplied ? 'Applied' : 'Apply Now'}
+                            <span className="ml-2">&rarr;</span>
+                        </div>
                         <a className="text-blue-600 hover:underline" href={getJobDetail?.website}>Visit Website</a>
                     </div>
                 </div>

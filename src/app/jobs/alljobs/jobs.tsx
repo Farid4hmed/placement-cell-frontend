@@ -2,6 +2,9 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { JobCard } from '@/paths'
+import { Button } from "@/components/ui/button"
+import { Building2, List, FilePlus2, ArrowBigLeft } from 'lucide-react'
+
 
 const Jobs = ({ session }: any) => {
   const [JobData, setJobData] = useState([])
@@ -26,11 +29,31 @@ const Jobs = ({ session }: any) => {
   return (
     <div className='w-[80vw] mx-auto mb-12 flex flex-col items-center'>
       {session.user.isAdmin &&
-        <div className='flex justify-evenly w-1/2 mb-10'>
-          <button className='bg-blue-500 hover:bg-blue-700 text-white w-1/5 font-bold py-2 px-4 rounded' onClick={() => window.location.href = '/addCompany'}>Add a Company</button>
-          <button className='bg-blue-500 hover:bg-blue-700 text-white w-1/5 font-bold py-2 px-4 rounded' onClick={() => window.location.href = '/applications'}>View Applications</button>
-          <button className='bg-blue-500 hover:bg-blue-700 text-white w-1/5 font-bold py-2 px-4 rounded' onClick={() => window.location.href = '/addJob'}>Add a Job</button>
+        <div className="flex flex-col md:flex-row justify-evenly items-center w-full md:w-1/2 mb-10 space-y-4 md:space-y-0 md:space-x-4">
+          <Button
+            // className="bg-blue-500 hover:bg-blue-700 text-white w-full md:w-1/5 font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105 shadow-lg"
+            onClick={() => window.location.href = '/addCompany'}>
+            <Building2 className='mr-2' />
+            Add a Company
+
+          </Button>
+          <Button
+            // className="bg-blue-500 hover:bg-blue-700 text-white w-full md:w-1/5 font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105 shadow-lg"
+            onClick={() => window.location.href = '/applications'}>
+            <List className='mr-2' />
+            View Applications
+
+
+          </Button>
+          <Button
+            // className="bg-blue-500 hover:bg-blue-700 text-white w-full md:w-1/5 font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105 shadow-lg"
+            onClick={() => window.location.href = '/addJob'}>
+            <FilePlus2 className='mr-2' />
+            Add a Job
+
+          </Button>
         </div>
+
       }
       <div className="space-y-10 flex justify-center w-full">
         <div className="flex flex-col w-4/5">

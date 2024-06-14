@@ -36,7 +36,9 @@ export default function Applications() {
         <section className="flex flex-col justify-center items-center">
             {/* back button */}
             <div className="w-full flex justify-between items-center">
-                <button className="flex bg-blue-500 hover:bg-blue-700 text-white w-1/8 font-bold py-2 px-4 rounded mb-10" onClick={() => window.location.href = '/jobs/alljobs'}>Go Back</button>
+                {/* <button className="flex bg-blue-500 hover:bg-blue-700 text-white w-1/8 font-bold py-2 px-4 rounded mb-10" onClick={() => window.location.href = '/jobs/alljobs'}>Go Back</button>
+                 */}
+                <a className="text-blue-600 hover:underline mb-20" href="/jobs/alljobs">&larr; Go Back</a>
             </div>
             <Table className={"max-h-[20vh] overflow-y-scroll"}>
                 <TableHeader>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { ArrowBigRight } from 'lucide-react'
 
 export const JobCard = ({ job, session }: any) => {
   // const [isApplied, setIsApplied] = useState(false)
@@ -90,7 +90,7 @@ export const JobCard = ({ job, session }: any) => {
           <div className="flex flex-col items-center justify-between">
             <div className={`px-4 py-2 text-white bg-blue-500 hover:bg-blue-700 rounded-md`}>
               View Details
-
+            
               <span className="ml-2">&rarr;</span>
             </div>
           </div>

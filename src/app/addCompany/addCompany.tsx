@@ -57,7 +57,8 @@ const AddCompanyForm: React.FC = () => {
     return (
         <div className="p-6 flex flex-col items-center justify-center">
             <div className="w-1/3 flex justify-between items-center">
-                <button className="flex bg-blue-500 hover:bg-blue-700 text-white w-1/8 font-bold py-2 px-4 rounded mb-10" onClick={() => window.location.href = '/jobs/alljobs'}>Go Back</button>
+            <a className="text-blue-600 hover:underline mb-20" href="/jobs/alljobs">&larr; Go Back</a>
+                {/* <button className="flex bg-blue-500 hover:bg-blue-700 text-white w-1/8 font-bold py-2 px-4 rounded mb-10" onClick={() => window.location.href = '/jobs/alljobs'}>Go Back</button> */}
             </div>
             <h1 className="text-2xl font-bold mb-4">Add Company</h1>
             <form onSubmit={handleSubmit} className="mb-4 w-1/3">

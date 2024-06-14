@@ -7,7 +7,9 @@ import { Building2, List, FilePlus2, ArrowBigLeft } from 'lucide-react'
 
 
 const Jobs = ({ session }: any) => {
+
   const [JobData, setJobData] = useState([])
+  const [searchTerm, setSearchTerm] = useState('');
 
   async function getJobData() {
     try {
@@ -19,6 +21,17 @@ const Jobs = ({ session }: any) => {
       console.error(error)
     }
   }
+
+  const changeSearchTerm = (e: any) => {
+    e.preventDefault();
+    setSearchTerm(e.target.value);
+  }
+
+  const filteredJobs = JobData && JobData.filter((job: any) => {
+    const matchesSearch = job.title.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesSearch;
+  });
+
 
   useEffect(() => {
     getJobData()
@@ -38,12 +51,9 @@ const Jobs = ({ session }: any) => {
 
           </Button>
           <Button
-            // className="bg-blue-500 hover:bg-blue-700 text-white w-full md:w-1/5 font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105 shadow-lg"
             onClick={() => window.location.href = '/applications'}>
             <List className='mr-2' />
             View Applications
-
-
           </Button>
           <Button
             // className="bg-blue-500 hover:bg-blue-700 text-white w-full md:w-1/5 font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105 shadow-lg"
@@ -55,9 +65,20 @@ const Jobs = ({ session }: any) => {
         </div>
 
       }
+
+      <div className="flex justify-center z-10 w-full mt-5 mb-20">
+        <input
+          className="block searchBox p-4 ps-8 w-2/3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500"
+          type="text"
+          placeholder="Search for jobs..."
+          defaultValue={searchTerm}
+          onChange={changeSearchTerm}
+        />
+      </div>
+
       <div className="space-y-10 flex justify-center w-full">
-        <div className="flex flex-col w-4/5">
-          {JobData?.map((job: any) => <Link key={job.id} href={`/jobs/jobsDetails/${job.id}`}>
+        <div className="flex flex-col w-4/5 space-y-8">
+          {filteredJobs?.map((job: any) => <Link key={job.id} href={`/jobs/jobsDetails/${job.id}`}>
             <JobCard job={job} session={session} />
           </Link>)}
         </div>

@@ -10,7 +10,7 @@ export default async function Main() {
     return (
         <Navigation session={session}>
             <main className="">
-                <AddJobForm />
+                {session.user.isAdmin && <AddJobForm />}
             </main>
         </Navigation>
     );

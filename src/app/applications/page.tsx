@@ -4,12 +4,12 @@ import { authOptions } from "../api/auth/[...nextauth]/route";
 import Applications from "./applications";
 
 export default async function Main() {
-    const session = await getServerSession(authOptions)
+    const session: any = await getServerSession(authOptions)
 
     return (
         <Navigation session={session}>
             <main className="">
-                <Applications />
+                {session.user.isAdmin && <Applications />}
             </main>
         </Navigation>
     );

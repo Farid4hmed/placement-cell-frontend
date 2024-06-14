@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ArrowBigRight } from 'lucide-react'
+import { Badge } from "@/components/ui/badge"
 
 export const JobCard = ({ job, session }: any) => {
   // const [isApplied, setIsApplied] = useState(false)
@@ -76,7 +77,7 @@ export const JobCard = ({ job, session }: any) => {
     <div className="flex flex-col p-4 items-center justify-center">
       <div className="flex items-center justify-center w-full space-x-5 py-10 px-10 bg-white border border-gray-200 rounded-lg shadow-md">
         <div>
-          <img src={job.logo} width="56" height="56" alt="Company 03" />
+          <img src={job.logo} width="70" height="76" alt="Company 03" />
         </div>
         <div className="flex justify-between flex-grow space-y-5">
           <div className="space-y-2">
@@ -86,11 +87,18 @@ export const JobCard = ({ job, session }: any) => {
               <a className="text-sm text-gray-600 hover:underline" href="#0">🌎 {job.job_type}</a>
               <a className="text-sm text-gray-600 hover:underline" href="#0">📅 {job.created_at.split("T")[0]}</a>
             </div>
+            <div className="flex flex-wrap space-x-1 w-3/4">
+              <p className='text-xs'>⚙️</p>
+              {job.skills.map((skill: any, index: number) => (
+                <p key={index} className='text-xs'>{skill}{index < job.skills.length - 1 ? ',' : ''}</p>
+              ))}
+            </div>
+
           </div>
           <div className="flex flex-col items-center justify-between">
-            <div className={`px-4 py-2 text-white bg-blue-500 hover:bg-blue-700 rounded-md`}>
+            <div className={`px-2 py-2 text-white bg-blue-500 hover:bg-blue-700 rounded-md`}>
               View Details
-            
+
               <span className="ml-2">&rarr;</span>
             </div>
           </div>

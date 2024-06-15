@@ -1,5 +1,5 @@
 import Navigation from "@/components/Navigation";
-import Gpt from "@/components/Gpt";
+import ImportResume from "@/components/ImportResume";
 import { getServerSession } from "next-auth";
 
 export default async function Main() {
@@ -8,7 +8,7 @@ export default async function Main() {
     return (
       <Navigation session={session}>
         <main className="">
-          <Gpt />
+          <ImportResume />
         </main>
       </Navigation>
     );

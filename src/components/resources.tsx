@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import * as Dialog from '@radix-ui/react-dialog';
+// import * as Dialog from '@radix-ui/react-dialog';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import 'react-quill/dist/quill.snow.css'
 import 'react-quill/dist/quill.core.css'
@@ -9,6 +9,16 @@ import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import './sidebar.css';
 import Link from 'next/link'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose
+} from "@/components/ui/dialog"
+
 
 interface Docs {
   name: string;
@@ -244,24 +254,31 @@ const Resources = (props: any) => {
   };
 
 
-  return (
+  return  (
     <div className="block">
-      <div className="border-b border-gray-200 dark:border-gray-700 ">
+      <div className="border-b border-gray-200 dark:border-gray-700">
         <ul className="flex flex-wrap -mb-px text-sm font-medium text-center justify-center text-gray-500 dark:text-gray-400">
-          <li className="me-2" >
-            <h3 className={`${!clicked ? 'inline-flex items-center justify-center p-4 border-b-2 tabButton rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group' : 'inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group'}`} aria-current="page" onClick={() => handleTabClick(1)}>
+          <li className="me-2">
+            <h3
+              className={`${!clicked ? 'inline-flex items-center justify-center p-4 border-b-2 tabButton rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group' : 'inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group'}`}
+              aria-current="page"
+              onClick={() => handleTabClick(1)}
+            >
               Videos
             </h3>
           </li>
           <li className="me-2">
-            <h3 className={` ${clicked ? 'inline-flex items-center justify-center p-4 border-b-2 tabButton rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group' : 'inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group'}`} onClick={() => handleTabClick(2)}>
+            <h3
+              className={` ${clicked ? 'inline-flex items-center justify-center p-4 border-b-2 tabButton rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group' : 'inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group'}`}
+              onClick={() => handleTabClick(2)}
+            >
               Documentation
             </h3>
           </li>
         </ul>
       </div>
-      {activeTab === 1 &&
-        (<Videos
+      {activeTab === 1 && (
+        <Videos
           categories={categories}
           filterVideoCategory={filterVideoCategory}
           setFilterVideoCategory={setFilterVideoCategory}
@@ -271,9 +288,10 @@ const Resources = (props: any) => {
           collapsed={vidCollapsed}
           setCollapsed={setVidCollapsed}
           toggleCollapsed={toggleVidCollapse}
-        />)}
-      {activeTab === 2 &&
-        (<div>
+        />
+      )}
+      {activeTab === 2 && (
+        <div>
           <Documentation
             categories={categories}
             filterDocCategory={filterDocCategory}
@@ -285,61 +303,103 @@ const Resources = (props: any) => {
             setCollapsed={setDocCollapsed}
             toggleCollapsed={toggleDocCollapse}
           />
-          <Dialog.Root>
-            <Dialog.Trigger asChild>
+          <Dialog>
+            <DialogTrigger asChild>
               {props.isAdmin && (
                 <div className="fixed bottom-10 right-20 z-100">
-                  <button style={{ backgroundColor: "#7c3aed" }} className=" hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full hover:shadow-lg" onClick={resetPost}>Post</button>
+                  <button
+                    style={{ backgroundColor: "#7c3aed" }}
+                    className="hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full hover:shadow-lg"
+                    onClick={resetPost}
+                  >
+                    Post
+                  </button>
                 </div>
               )}
-            </Dialog.Trigger>
-            <Dialog.Portal>
-              <Dialog.Content>
+            </DialogTrigger>
+            <DialogContent className={`${postParam === 0 ? 'min-w-[40vw]' : 'min-w-[80vw]'}`}>
+              <div className="relative bg-[#F5F5F5] p-8 rounded-lg shadow-md w-full">
                 {postParam === 0 && (
-                  <div className="bg-white p-8 rounded-lg shadow-md w-80" style={{ position: 'fixed', top: '20vh', left: '40vw', backgroundColor: '#F5F5F5' }}>
-                    <h1 className="text text-xl font-bold mb-4">New Post</h1>
+                  <div className="bg-[#F5F5F5] p-8 rounded-lg shadow-md w-full">
+                    <h1 className="text-xl font-bold mb-4">New Post</h1>
                     <form onSubmit={handleSubmit}>
                       <div className="mb-2">
                         <label>Topic</label><br />
-                        <input type="text" placeholder="Topic" name="topic" value={formData.topic} onChange={handleChange} className="bg-white p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                        <input
+                          type="text"
+                          placeholder="Topic"
+                          name="topic"
+                          value={formData.topic}
+                          onChange={handleChange}
+                          className="bg-white p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        />
                       </div>
                       <div className="mb-2">
                         <label>A line about the Topic</label><br />
-                        <input type="textarea" placeholder="Description" style={{ height: "100px" }} name="pretext" value={formData.pretext} onChange={handleChange} className="bg-white p-2 rounded w-full h-20 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                        <input
+                          type="textarea"
+                          placeholder="Description"
+                          name="pretext"
+                          value={formData.pretext}
+                          onChange={handleChange}
+                          className="bg-white p-2 rounded w-full h-20 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        />
                       </div>
                       <div className="mb-2">
                         <label>Category</label><br />
-                        <input type="text" placeholder="Java" name="category" value={formData.category} onChange={handleChange} className="bg-white p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                        <input
+                          type="text"
+                          placeholder="Java"
+                          name="category"
+                          value={formData.category}
+                          onChange={handleChange}
+                          className="bg-white p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        />
                       </div>
-                      <button type="submit" className="bg-indigo-500 text-white p-2 rounded w-full hover:bg-indigo-600">Next →</button>
+                      <button type="submit" className="bg-indigo-500 text-white p-2 rounded w-full hover:bg-indigo-600">
+                        Next →
+                      </button>
                     </form>
-                  </div>)}
+                  </div>
+                )}
                 {postParam === 1 && (
-                  <div className="" style={{ position: 'absolute', top: '25vh', left: '25vw', backgroundColor: '#F5F5F5' }}>
-                    <h1 style={{ textAlign: "center" }}>Text Editor In React JS</h1>
-                    <div style={{ display: "grid", justifyContent: "center" }}>
+                  <div className="p-8 rounded-lg shadow-md w-full">
+                    <h1 className="text-center">Text Editor In React JS</h1>
+                    <div className="grid justify-center w-full">
                       <ReactQuill
                         theme="snow"
                         modules={modules}
                         formats={formats}
-                        content={postValue}
+                        value={postValue}
                         placeholder="write your content ...."
                         onChange={handleProcedureContentChange}
-                        style={{ height: "50vh", width: "50vw" }} />
-                      <button className="relative right-0 hover:bg-blue-700 text-white font-bold rounded-full" style={{ backgroundColor: "#7c3aed", width: '15%', left: '80%' }} onClick={handlePost}>Submit</button>
+                        style={{ height: "50vh", width: "50vw" }}
+                      />
+                      <button
+                        className="relative right-0 hover:bg-blue-700 text-white font-bold rounded-full mt-20"
+                        style={{ backgroundColor: "#7c3aed", width: '20%', height: '40%', marginLeft: '40%' }}
+                        onClick={handlePost}
+                      >
+                        Submit
+                      </button>
                     </div>
-                  </div>)}
+                  </div>
+                )}
                 {postParam === 2 && (
-                  <Dialog.Close asChild>
-                    <button className="text-violet11 hover:bg-violet4 focus:shadow-violet7 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none z-20" aria-label="Close">
-                      Done
+                  <DialogClose asChild>
+                    <button
+                      className="text-violet11 hover:bg-violet4 focus:shadow-violet7 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none"
+                      aria-label="Close"
+                    >
+                      <Cross2Icon />
                     </button>
-                  </Dialog.Close>)}
-              </Dialog.Content>
-            </Dialog.Portal>
-          </Dialog.Root>
-        </div>)}
-
+                  </DialogClose>
+                )}
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
+      )}
     </div>
   );
 };
@@ -386,45 +446,40 @@ const Videos = ({ searchTerm, categories, changeSearchTerm, filteredVideoTopics,
         />
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-8" style={{ width: '75vw', marginLeft: '10vw' }}>
-        {filteredVideoTopics && filteredVideoTopics.map((vidTopic: any) => (
-          <Dialog.Root>
-            <Dialog.Trigger asChild>
+        {filteredVideoTopics && filteredVideoTopics.map((vidTopic: any, index: any) => (
+          <Dialog key={index}>
+            <DialogTrigger asChild>
               <a href="#" className="relative block rounded-lg border border-gray-100 p-4 sm:p-6 lg:p-8 transition-transform transform-gpu hover:scale-105 hover:shadow-lg">
                 <div className="sm:flex sm:justify-between sm:gap-4">
                   <div>
                     <h3 className="text-lg font-bold text-gray-900 sm:text-xl">
                       {vidTopic.name}
                     </h3>
-
                     <p className="mt-1 text-xs font-medium text-gray-600">By John Doe</p>
                   </div>
                 </div>
-
                 <div className="mt-4">
                   <p className="text-pretty text-sm text-gray-500">
                     {vidTopic.text.length > 100 ? vidTopic.text.slice(0, 100) + '...' : vidTopic.text}
                   </p>
                 </div>
               </a>
-            </Dialog.Trigger>
-            <Dialog.Portal>
-              <Dialog.Overlay className="bg-blackA6 data-[state=open]:animate-overlayShow fixed inset-0" />
-              <Dialog.Content className="data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
-                <Dialog.Title className="text-mauve12 m-0 text-[17px] font-medium">
+            </DialogTrigger>
+            <DialogContent className="fixed top-[50%] left-[50%] max-h-[95vh] w-[100vw] max-w-[1200px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-[25px] shadow-[0_10px_38px_rgba(0,0,0,0.35),_0_10px_20px_rgba(0,0,0,0.2)] focus:outline-none">
+              <DialogHeader>
+                <DialogTitle className="text-mauve12 m-0 text-[17px] font-medium">
                   {vidTopic.name}
-                </Dialog.Title>
-                <iframe width="402" height="300" src={vidTopic.videolink}></iframe>
-                <Dialog.Description className="text-mauve11 mt-[10px] mb-5 text-[15px] leading-normal">
+                </DialogTitle>
+                <DialogDescription className="text-mauve11 mt-[10px] mb-5 text-[15px] leading-normal">
                   {vidTopic.text}
-                </Dialog.Description>
-                <Dialog.Close asChild>
-                  <button className="text-violet11 hover:bg-violet4 focus:shadow-violet7 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none" aria-label="Close">
-                    <Cross2Icon />
-                  </button>
-                </Dialog.Close>
-              </Dialog.Content>
-            </Dialog.Portal>
-          </Dialog.Root>
+                </DialogDescription>
+              </DialogHeader>
+              <iframe width="1150" height="600" src={vidTopic.videolink}></iframe>
+              <button className="text-violet11 hover:bg-violet4 focus:shadow-violet7 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none" aria-label="Close">
+                <Cross2Icon />
+              </button>
+            </DialogContent>
+          </Dialog>
         ))}
       </div>
     </div>

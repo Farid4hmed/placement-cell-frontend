@@ -532,8 +532,8 @@ const Doc = ({ name, text, category, param, setParam }: any) => {
         </header>
 
 
-        <div className="flex w-1/2 justify-center items-center">
-          <div style={{ width: '100%' }} dangerouslySetInnerHTML={{ __html: text }} />
+        <div className="flex sm:w-full 2xl:w-1/2 justify-center items-center">
+          <div style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }} dangerouslySetInnerHTML={{ __html: text }} />
         </div>
 
       </div>

@@ -520,20 +520,20 @@ const Doc = ({ name, text, category, param, setParam }: any) => {
   };
 
   return (
-    <div className="mx-auto justify-center doc relative">
+    <div className="flex flex-col justify-center items-center relative w-full">
       <button className="backbutton" onClick={backClick}><svg className="back" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11H6.83l3.58-3.59L9 6l-6 6l6 6l1.41-1.41L6.83 13H21z"></path></svg></button>
       <br />
 
-      <div className="container mx-auto p-6">
+      <div className="flex flex-col items-center justify-center py-10 w-full">
 
-        <header className="mb-8">
+        <header className="mb-8 w-full">
           <h1 className="text-3xl font-bold text-center text-gray-800">{name}</h1>
           <p className="text-center text-gray-600 mt-2">{category}</p>
         </header>
 
 
-        <div className="flex">
-          <div dangerouslySetInnerHTML={{ __html: text }} />
+        <div className="flex w-1/2 justify-center items-center">
+          <div style={{ width: '100%' }} dangerouslySetInnerHTML={{ __html: text }} />
         </div>
 
       </div>

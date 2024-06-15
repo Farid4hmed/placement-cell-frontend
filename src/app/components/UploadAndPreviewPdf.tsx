@@ -50,7 +50,7 @@ export default function Home(props: { reg: string }) {
         } catch (error: any) {
             setMessage(`Error: ${error.message}`);
         }
-    };
+    }
 
     const handleGetResume = async () => {
         try {

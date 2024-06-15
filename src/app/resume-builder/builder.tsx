@@ -4,7 +4,9 @@ import { store } from "@/lib/redux/store";
 import { ResumeForm } from "@/components/ResumeForm";
 import { Resume } from "@/components/Resume";
 
-export default function Create() {
+export default function Create({session}: any) {
+
+  console.log('session', session)
   return (
     <Provider store={store}>
       <main className="relative h-full w-full overflow-hidden mt-0 bg-gray-50">
@@ -13,7 +15,7 @@ export default function Create() {
             <ResumeForm />
           </div>
           <div className="col-span-3">
-            <Resume />
+            <Resume reg={session.registration}/>
           </div>
         </div>
       </main>

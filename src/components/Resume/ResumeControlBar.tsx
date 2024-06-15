@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSetDefaultScale } from "@/components/Resume/hooks";
 import {
   MagnifyingGlassIcon,
@@ -14,12 +14,14 @@ const ResumeControlBar = ({
   documentSize,
   document,
   fileName,
+  reg
 }: {
   scale: number;
   setScale: (scale: number) => void;
   documentSize: string;
   document: JSX.Element;
   fileName: string;
+  reg: string;
 }) => {
   const { scaleOnResize, setScaleOnResize } = useSetDefaultScale({
     setScale,
@@ -27,6 +29,34 @@ const ResumeControlBar = ({
   });
 
   const [instance, update] = usePDF({ document });
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!instance.blob) {
+      setMessage("Please generate the PDF first.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", instance.blob, `${fileName}.pdf`);
+    formData.append('reg', reg)
+    try {
+      const res = await fetch(`/api/storeResume?reg=${reg}`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (res.status === 200) {
+        setMessage("Resume Uploaded Successfully!");
+      } else {
+        setMessage("Something Went Wrong, Please try again later.");
+      }
+    } catch (error) {
+      setMessage("Something Went Wrong, Please try again later.");
+    }
+  };
 
   // Hook to update pdf when document changes
   useEffect(() => {
@@ -35,7 +65,7 @@ const ResumeControlBar = ({
 
   return (
     <div className="sticky bottom-0 left-0 right-0 flex h-[var(--resume-control-bar-height)] items-center justify-center px-[var(--resume-padding)] text-gray-600 lg:justify-between">
-      <div className="flex items-center gap-2">
+      <form onSubmit={handleSubmit} className="flex items-center gap-2">
         <MagnifyingGlassIcon className="h-5 w-5" aria-hidden="true" />
         <input
           type="range"
@@ -58,7 +88,14 @@ const ResumeControlBar = ({
           />
           <span className="select-none">Autoscale</span>
         </label>
-      </div>
+        <button
+          type="submit"
+          className="ml-1 flex items-center gap-1 rounded-md border border-gray-300 px-3 py-0.5 hover:bg-gray-100 lg:ml-8"
+        >
+          <ArrowDownTrayIcon className="h-4 w-4" />
+          Upload To Profile
+        </button>
+      </form>
       <a
         className="ml-1 flex items-center gap-1 rounded-md border border-gray-300 px-3 py-0.5 hover:bg-gray-100 lg:ml-8"
         href={instance.url!}
@@ -67,6 +104,7 @@ const ResumeControlBar = ({
         <ArrowDownTrayIcon className="h-4 w-4" />
         <span className="whitespace-nowrap">Download Resume</span>
       </a>
+      {message && <p className="text-gray-500 ml-5">{message}</p>}
     </div>
   );
 };

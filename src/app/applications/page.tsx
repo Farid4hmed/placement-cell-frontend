@@ -1,6 +1,6 @@
 import Navigation from "@/components/Navigation";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "../api/auth/[...nextauth]/authOptions";
 import Applications from "./applications";
 
 export default async function Main() {

@@ -1,7 +1,7 @@
 import Navigation from "@/components/Navigation";
 import Resources from "@/components/resources";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "../api/auth/[...nextauth]/authOptions";
 import AddJobForm from "./addJob";
 
 export default async function Main() {

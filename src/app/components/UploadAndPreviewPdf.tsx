@@ -82,9 +82,10 @@ export default function Home(props: { reg: string }) {
                 <div className="mt-8 w-full max-w-4xl">
                     <h2 className="text-2xl font-semibold mb-4">Resume</h2>
                     <div className="border border-gray-300 rounded-md">
-                        <Worker workerUrl='/pdfjs/pdf.worker.min.mjs'>
+                        {/* <Worker workerUrl='/pdfjs/pdf.worker.min.mjs'>
                           {previewUrl &&  <Viewer fileUrl={previewUrl} />}
-                        </Worker>
+                        </Worker> */}
+                        <iframe src={previewUrl} width={"100%"} height={"900px"} />
                     </div>
                 </div>
             )}

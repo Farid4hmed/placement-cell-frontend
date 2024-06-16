@@ -35,7 +35,7 @@ export const readPdf = async (fileUrl: string): Promise<TextItems> => {
     const commonObjs = page.commonObjs;
 
     // Convert Pdfjs TextItem type to new TextItem type
-    const pageTextItems = textContent.items.map((item) => {
+    const pageTextItems = textContent.items.map((item: any) => {
       const {
         str: text,
         dir, // Remove text direction

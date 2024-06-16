@@ -2,7 +2,7 @@ import Navigation from "@/components/Navigation";
 import Resources from "@/components/resources";
 import { getServerSession } from "next-auth";
 import StudentProfile from "./profile";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "../api/auth/[...nextauth]/authOptions";
 import UploadAndPreviewPdf from "../components/UploadAndPreviewPdf";
 
 export default async function Main() {

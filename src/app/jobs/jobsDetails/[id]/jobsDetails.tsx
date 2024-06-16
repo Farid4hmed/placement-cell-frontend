@@ -2,9 +2,6 @@
 // import { authOptions } from '@/Auth'
 "use client"
 import { useState, useEffect } from 'react'
-import { ApplyButton, JobCard } from '@/paths'
-import { getServerSession } from 'next-auth'
-import { authOptions } from "../../../api/auth/[...nextauth]/route";
 import Link from 'next/link'
 import React from 'react'
 import { ToastContainer, toast } from 'react-toastify';

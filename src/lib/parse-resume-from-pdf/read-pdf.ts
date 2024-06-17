@@ -2,8 +2,8 @@
 // https://stackoverflow.com/a/63486898/7699841
 import * as pdfjs from "pdfjs-dist";
 // @ts-ignore
-// import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
-pdfjs.GlobalWorkerOptions.workerSrc = '/pdfjs/pdf.worker.min.mjs';
+import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
+pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker
 
 import type { TextItem as PdfjsTextItem } from "pdfjs-dist/types/src/display/api";
 import type { TextItem, TextItems } from "@/lib/parse-resume-from-pdf/types";

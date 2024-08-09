@@ -55,6 +55,9 @@ Resume Generator (Student Access)
 <img width="1424" alt="Screenshot 2024-08-09 at 12 06 31 PM" src="https://github.com/user-attachments/assets/3f03b176-7054-4edf-8f0c-6a4d2f48d9e1">
 
 
+Student's Personal File Storage Page:
+
+![Screenshot 2024-08-09 at 12 11 54 PM](https://github.com/user-attachments/assets/abe4490e-fb40-4ee4-b98a-28d487df6f70)
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 

@@ -1,4 +1,4 @@
-<img width="1424" alt="Screenshot 2024-08-09 at 12 06 31 PM" src="https://github.com/user-attachments/assets/164f8db4-fbac-4402-af90-d2c5179d6644">## Live Link - https://placement-cell-frontend-two.vercel.app
+## Live Link - https://placement-cell-frontend-two.vercel.app
 
 ## Account Details
   - Student Access:

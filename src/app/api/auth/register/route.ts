@@ -2,6 +2,16 @@ import { NextResponse } from "next/server";
 import { hash } from "bcrypt";
 import { sql } from "@vercel/postgres";
 
+function getRandomNumberOfRandomDigits() {
+  const numberOfDigits = Math.floor(Math.random() * 10) + 1;
+
+  const min = Math.pow(10, numberOfDigits - 1);
+  const max = Math.pow(10, numberOfDigits) - 1;
+  const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+
+  return randomNumber;
+}
+
 export async function POST(request: Request) {
   try {
     const { email, password } = await request.json();
@@ -15,7 +25,7 @@ export async function POST(request: Request) {
     //   });
     // }
 
-    const registrationNo = email.split(".")[0]
+    const registrationNo = getRandomNumberOfRandomDigits()
 
 
     const hashedPassword = await hash(password, 10);

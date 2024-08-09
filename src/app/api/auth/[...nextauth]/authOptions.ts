@@ -3,6 +3,18 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcrypt";
 import { sql } from "@vercel/postgres";
 
+const notAStudent = {
+  id: 2,
+  name: 'Unregistered Student',
+  registration_number: '2041001037',
+  branch: '-',
+  batch: '-',
+  section: '-',
+  cgpa: '-',
+  email: 'testUserEmail',
+  phone: '-'
+}
+
 const authOptions: AuthOptions = {
   session: {
     strategy: "jwt",
@@ -43,12 +55,12 @@ const authOptions: AuthOptions = {
             const response = await sql`
             SELECT * FROM collegeStudentDetails WHERE registration_number = ${registration_number}
           `;
-            const userData = response.rows[0]
+            const userData = response.rows[0] || notAStudent;
 
-            console.log({ user: user });
+
             let isAdmin = false;
             if (user.email === 'admin@soa.ac.in') isAdmin = true;
-            return { id: user.id, email: user.email, isAdmin: isAdmin, name: userData.name, registration: userData.registration_number, branch: userData.branch, batch: userData.batch, section: userData.section, cgpa: userData.cgpa, phone: userData.phone };
+            return { id: user.id, email: user.email, isAdmin: isAdmin, name: userData.name, registration: user.registration_number, branch: userData.branch, batch: userData.batch, section: userData.section, cgpa: userData.cgpa, phone: userData.phone };
           }
 
           return null;
@@ -61,28 +73,29 @@ const authOptions: AuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user }: any) {
+      console.log("USER", user)
       if (user) {
-        token.isAdmin = user.isAdmin;
-        token.name = user.name;
-        token.registration = user.registration;
-        token.branch = user.branch;
-        token.batch = user.batch;
-        token.section = user.section;
-        token.cgpa = user.cgpa;
-        token.phone = user.phone;
+        token.isAdmin = user?.isAdmin || false;
+        token.registration = user?.registration;
+        token.branch = user?.branch || "test";
+        token.batch = user?.batch || "test";
+        token.name = user?.name || "test";
+        token.section = user?.section || "test";
+        token.cgpa = user?.cgpa || "test";
+        token.phone = user?.phone || "test";
       }
       return token;
     },
     async session({ session, token }: any) {
       if (token) {
-        session.user.isAdmin = token.isAdmin;
-        session.name = token.name;
-        session.registration = token.registration;
-        session.branch = token.branch;
-        session.batch = token.batch;
-        session.section = token.section;
-        session.cgpa = token.cgpa;
-        session.phone = token.phone;
+        session.user.isAdmin = token?.isAdmin;
+        session.name = token?.name || "test";
+        session.registration = token?.registration;
+        session.branch = token?.branch || "test";
+        session.batch = token?.batch || "test";
+        session.section = token?.section || "test";
+        session.cgpa = token?.cgpa || "test";
+        session.phone = token?.phone || "test";
       }
       return session;
     },
